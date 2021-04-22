@@ -1,4 +1,5 @@
 #include "oglwidget.h"
+#include "vertex.h"
 #include <math.h>
 #include <iostream>
 #include <iomanip>
@@ -6,28 +7,49 @@
 #include <string>
 #include <vector>
 
+
+
 #define PI 3.14159265358979323846
 using namespace std;
 
 static double alpha = 45.0; // rotation angle
 
 // read data out of file
-//ReadData("D:\\Dateien div\\Documents\\Computergrafik\\OpenGL_Example\\tetra.obj");
+
+
+
 void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
+
+
  ifstream file( fname);
  if (!file){
  cout << "error opening file" << endl;
  return;
  }
+
+ vector <vertex> points;
+
+
+
+
  string key;
  float x, y, z;
  while( file){
  //getline( file, line);
  file >> key >> x >> y >> z;
  cout << key <<", "<< x <<", "<< y <<", "<< z << endl;
+ if(key== "v"){
+ points.push_back(vertex(x,y,z));
+
+ }
  }
  file.close();
+
+
 }
+
+
+
 
 // initialize Open GL lighting and projection matrix
 void InitLightingAndProjection() // to be executed once before drawing
@@ -65,10 +87,13 @@ void InitLightingAndProjection() // to be executed once before drawing
     //glFrustum( -10, 10, -8, 8, 2, 20); // perspective projektion
 }
 
+
 void DrawCylinder( int reso = 16){ // drawing a cylinder in OpenGL
     // alocate memory for x and y coordinates on a circle
     double *c = new double[ reso+1];
     double *s = new double[ reso+1];
+
+    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\OpenGL_Example\\tetra.obj");
 
     for( int i=0; i<=reso; i++){ // compute x and y coordinates of citcle
         c[i] = cos( 2.0 * PI * i / reso );
@@ -133,6 +158,7 @@ OGLWidget::OGLWidget(QWidget *parent) // constructor
 OGLWidget::~OGLWidget() // destructor
 {
 }
+
 
 void OGLWidget::stepAnimation()
 {
