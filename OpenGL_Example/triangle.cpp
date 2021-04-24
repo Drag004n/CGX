@@ -51,10 +51,11 @@ void Triangle::ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.o
         points.push_back(Vertex(x,y,z));
     }
     if (key == "f"){
-        tris.push_back(Triangle(x,y,z));
+        tris.push_back(Triangle(x--,y--,z--));
     }
  }
  file.close();
- cout << points[1].getX() << endl;
-  cout << tris[1].getA() << endl;
+ //test correct transfer of data
+  cout << points[1].getX() << endl;
+  cout << tris[0].getA() << endl;
 }

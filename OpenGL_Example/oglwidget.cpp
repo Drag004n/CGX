@@ -16,8 +16,6 @@ using namespace std;
 
 static double alpha = 45.0; // rotation angle
 
-// read data out of file
-
 Triangle triangle;
 
 
@@ -30,7 +28,8 @@ void InitLightingAndProjection() // to be executed once before drawing
 
 
 
-    triangle.ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\OpenGL_Example\\tetra.obj");
+    //triangle.ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\OpenGL_Example\\tetra.obj");
+    triangle.ReadData("D:\\Downloads\\Github\\CGX\\OpenGL_Example\\tetra.obj");
 
     // light positions and colors
     GLfloat LightPosition1[4] = { 10, 5, 10,  0};
@@ -78,9 +77,13 @@ void DrawCylinder( int reso = 16){ // drawing a cylinder in OpenGL
         //cout << i << " " << c[i] << endl;
     }
 
-    points = triangle.getPoints();
-
     glBegin( GL_TRIANGLES);
+
+    Vertex points[4];
+    for(int i = 0; i<triangle.getPoints().size(); i++){
+        points[i];
+    }
+    //points = triangle.getPoints();
 
     for(int i=0; i<triangle.getTris().size(); i++){
          glNormal3fv( c[i] = a[i]*b[i] - a[i]*b[i];);
