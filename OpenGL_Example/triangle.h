@@ -14,8 +14,11 @@ public:
     Triangle();
     Triangle(int x, int y, int z);
     void test(string test);
+    void cross( float c[3], float a[3], float b[3]);
     void ReadData(string fname);
     int getA();
+    vector <Triangle> getTris();
+    vector <Vertex> getPoints();
 
 private:
     int a,b,c;

@@ -5,6 +5,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "triangle.h"
+#include "vertex.h"
+#include "main.cpp"
 
 
 
@@ -15,7 +18,7 @@ static double alpha = 45.0; // rotation angle
 
 // read data out of file
 
-
+Triangle triangle;
 
 
 
@@ -24,6 +27,11 @@ static double alpha = 45.0; // rotation angle
 // initialize Open GL lighting and projection matrix
 void InitLightingAndProjection() // to be executed once before drawing
 {
+
+
+
+    triangle.ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\OpenGL_Example\\tetra.obj");
+
     // light positions and colors
     GLfloat LightPosition1[4] = { 10, 5, 10,  0};
     GLfloat LightPosition2[4] = { -5, 5, -10,  0};
@@ -70,17 +78,30 @@ void DrawCylinder( int reso = 16){ // drawing a cylinder in OpenGL
         //cout << i << " " << c[i] << endl;
     }
 
-    glBegin( GL_QUADS); // each 4 points define a polygon
-    for( int i=0; i<reso; i++){
-        glNormal3f( c[i], s[i], 0.0); // normal vector used for all consecutive points
-        glVertex3f( c[i], s[i], 3.0); // 2 points ...
-        glVertex3f( c[i], s[i], 0.0);
+    points = triangle.getPoints();
 
-        glNormal3f( c[i+1], s[i+1], 0.0); // another normal with two more points
-        glVertex3f( c[i+1], s[i+1], 0.0);
-        glVertex3f( c[i+1], s[i+1], 3.0);
+    glBegin( GL_TRIANGLES);
+
+    for(int i=0; i<triangle.getTris().size(); i++){
+         glNormal3fv( c[i] = a[i]*b[i] - a[i]*b[i];);
+         glVertex3fv();
+         glVertex3fv();
+         glVertex3fv();
+
     }
-    glEnd(); // concludes GL_QUADS
+    glEnd();
+
+    //    glBegin( GL_QUADS); // each 4 points define a polygon
+    //    for( int i=0; i<reso; i++){
+    //        glNormal3f( c[i], s[i], 0.0); // normal vector used for all consecutive points
+    //        glVertex3f( c[i], s[i], 3.0); // 2 points ...
+    //        glVertex3f( c[i], s[i], 0.0);
+
+    //        glNormal3f( c[i+1], s[i+1], 0.0); // another normal with two more points
+    //        glVertex3f( c[i+1], s[i+1], 0.0);
+    //        glVertex3f( c[i+1], s[i+1], 3.0);
+    //    }
+    //    glEnd(); // concludes GL_QUADS
 
     delete[] c; // de-allocate space
     delete[] s;

@@ -8,6 +8,7 @@ public:
     Vertex(); // empty constructor
     Vertex(float a, float b, float c);
     float getX();
+
 private:
     float x,y,z;
 };
