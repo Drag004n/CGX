@@ -18,13 +18,11 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     oglwidget.cpp \
     triangle.cpp \
-    vec3.cpp \
     vertex.cpp
 
 HEADERS  += mainwindow.h \
     oglwidget.h \
     triangle.h \
-    vec3.hpp \
     vertex.h
 
 FORMS    += mainwindow.ui

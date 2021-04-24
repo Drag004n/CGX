@@ -1,21 +1,18 @@
-
+#ifndef VERTEX_H
 #define VERTEX_H
 
+#include <QObject>
 
-class vertex{
+class Vertex{
 public:
+    Vertex(); // empty constructor
+    Vertex(float a, float b, float c);
+    float getX();
+private:
     float x,y,z;
-
-    vertex(); // empty constructor
-    vertex( float x, float y, float z); // constructor with initialization
-
-
 };
 
-vertex::vertex(){}; // empty constructor
 
-vertex::vertex( float a, float b, float c){ // constructor with initialization
-    x = a;
-    y = b;
-    z = c;
-}
+
+
+#endif // VERTEX_H

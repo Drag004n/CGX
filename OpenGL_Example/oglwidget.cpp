@@ -1,5 +1,4 @@
 #include "oglwidget.h"
-#include "vertex.h"
 #include <math.h>
 #include <iostream>
 #include <iomanip>
@@ -18,35 +17,6 @@ static double alpha = 45.0; // rotation angle
 
 
 
-void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
-
-
- ifstream file( fname);
- if (!file){
- cout << "error opening file" << endl;
- return;
- }
-
- vector <vertex> points;
-
-
-
-
- string key;
- float x, y, z;
- while( file){
- //getline( file, line);
- file >> key >> x >> y >> z;
- cout << key <<", "<< x <<", "<< y <<", "<< z << endl;
- if(key== "v"){
- points.push_back(vertex(x,y,z));
-
- }
- }
- file.close();
-
-
-}
 
 
 
@@ -93,7 +63,6 @@ void DrawCylinder( int reso = 16){ // drawing a cylinder in OpenGL
     double *c = new double[ reso+1];
     double *s = new double[ reso+1];
 
-    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\OpenGL_Example\\tetra.obj");
 
     for( int i=0; i<=reso; i++){ // compute x and y coordinates of citcle
         c[i] = cos( 2.0 * PI * i / reso );
