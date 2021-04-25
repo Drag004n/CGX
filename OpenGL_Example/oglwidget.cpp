@@ -7,7 +7,7 @@
 #include <vector>
 #include "triangle.h"
 #include "vertex.h"
-#include "main.cpp"
+
 
 
 
@@ -16,11 +16,13 @@ using namespace std;
 
 static double alpha = 45.0; // rotation angle
 
-Triangle triangle;
+//Faces usually have 3 values as they are triangles
 
+vector <Vertex> points;
 
+vector <Triangle> tris;
 
-
+void ReadData( string fname);
 
 // initialize Open GL lighting and projection matrix
 void InitLightingAndProjection() // to be executed once before drawing
@@ -28,8 +30,10 @@ void InitLightingAndProjection() // to be executed once before drawing
 
 
 
-    //triangle.ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\OpenGL_Example\\tetra.obj");
-    triangle.ReadData("D:\\Downloads\\Github\\CGX\\OpenGL_Example\\tetra.obj");
+    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\OpenGL_Example\\tetra.obj");
+    //ReadData("D:\\Downloads\\Github\\CGX\\OpenGL_Example\\tetra.obj");
+
+
 
     // light positions and colors
     GLfloat LightPosition1[4] = { 10, 5, 10,  0};
@@ -64,50 +68,80 @@ void InitLightingAndProjection() // to be executed once before drawing
     //glFrustum( -10, 10, -8, 8, 2, 20); // perspective projektion
 }
 
-
-void DrawCylinder( int reso = 16){ // drawing a cylinder in OpenGL
-    // alocate memory for x and y coordinates on a circle
-    double *c = new double[ reso+1];
-    double *s = new double[ reso+1];
-
-
-    for( int i=0; i<=reso; i++){ // compute x and y coordinates of citcle
-        c[i] = cos( 2.0 * PI * i / reso );
-        s[i] = sin( 2.0 * PI * i / reso );
-        //cout << i << " " << c[i] << endl;
+void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
+ ifstream file( fname);
+ if (!file){
+    cout << "error opening file" << endl;
+    return;
+ }
+ string key;
+ float x, y, z;
+ while( file){
+    file >> key >> x >> y >> z;
+//    cout << key <<", "<< x <<", "<< y <<", "<< z << endl;
+    if (key == "v"){
+        points.push_back(Vertex(x,y,z));
     }
+    if (key == "f"){
+        tris.push_back(Triangle(x-1,y-1,z-1));
+    }
+ }
+ file.close();
+ //test correct transfer of data
+  cout << points[1].getX() << endl;
+  cout << tris[0].getA() << endl;
+}
+
+
+void DrawTriangle(){ // drawing a cylinder in OpenGL
+    // alocate memory for x and y coordinates on a circle
+//    vector<Vertex> points = triangle.getPoints();
+//    double *c = new double[ reso+1];
+//    double *s = new double[ reso+1];
+
+//    Vertex * vertexPointer;
+
+    //cout << triangle.getPoints().size() << endl;
+
+
+
+//    for( int i=0; i<=reso; i++){ // compute x and y coordinates of citcle
+//        c[i] = cos( 2.0 * PI * i / reso );
+//        s[i] = sin( 2.0 * PI * i / reso );
+//        cout << i << " " << c[i] << endl;
+//    }
 
     glBegin( GL_TRIANGLES);
 
-    Vertex points[4];
-    for(int i = 0; i<triangle.getPoints().size(); i++){
-        points[i];
-    }
+//    Vertex points[4];
+//    for(int i = 0; i<triangle.getPoints().size(); i++){
+//        points[i];
+//    }
     //points = triangle.getPoints();
 
-    for(int i=0; i<triangle.getTris().size(); i++){
-         glNormal3fv( c[i] = a[i]*b[i] - a[i]*b[i];);
-         glVertex3fv();
-         glVertex3fv();
-         glVertex3fv();
+//    for(int i=0; i<triangle.getTris().size(); i++){
+//         glNormal3f(3.0,0.0,1.0);
+         glVertex3f(8.0,0.0,0.0);
+         glVertex3f(0.0,8.0,0.0);
+         glVertex3f(0.0,0.0,8.0);
 
-    }
+//    }
     glEnd();
 
-    //    glBegin( GL_QUADS); // each 4 points define a polygon
-    //    for( int i=0; i<reso; i++){
-    //        glNormal3f( c[i], s[i], 0.0); // normal vector used for all consecutive points
-    //        glVertex3f( c[i], s[i], 3.0); // 2 points ...
-    //        glVertex3f( c[i], s[i], 0.0);
+//        glBegin( GL_QUADS); // each 4 points define a polygon
+//        for( int i=0; i<reso; i++){
+//            glNormal3f( c[i], s[i], 0.0); // normal vector used for all consecutive points
+//            glVertex3f( c[i], s[i], 3.0); // 2 points ...
+//            glVertex3f( c[i], s[i], 0.0);
 
-    //        glNormal3f( c[i+1], s[i+1], 0.0); // another normal with two more points
-    //        glVertex3f( c[i+1], s[i+1], 0.0);
-    //        glVertex3f( c[i+1], s[i+1], 3.0);
-    //    }
-    //    glEnd(); // concludes GL_QUADS
+//            glNormal3f( c[i+1], s[i+1], 0.0); // another normal with two more points
+//            glVertex3f( c[i+1], s[i+1], 0.0);
+//            glVertex3f( c[i+1], s[i+1], 3.0);
+//        }
+//        glEnd(); // concludes GL_QUADS
 
-    delete[] c; // de-allocate space
-    delete[] s;
+//    delete[] c; // de-allocate space
+//    delete[] s;
 }
 
 // define material color properties for front and back side
@@ -178,7 +212,7 @@ void OGLWidget::paintGL() // draw everything, to be called repeatedly
     glMatrixMode( GL_MODELVIEW);
     glLoadIdentity();				// Reset The Current Modelview Matrix
     glTranslated( 0 ,0 ,-10.0);     // Move 10 units backwards in z, since camera is at origin
-    glScaled( 5.0, 5.0, 5.0);       // scale objects
+    glScaled( 1.0, 1.0, 1.0);       // scale objects
     glRotated( alpha, 0, 3, 1);     // continuous rotation
     alpha += 5;
 
@@ -187,7 +221,7 @@ void OGLWidget::paintGL() // draw everything, to be called repeatedly
     SetMaterialColor( 2, 0.2, 0.2, 1.0); // back color is blue
 
     // draw a cylinder with default resolution
-    DrawCylinder();
+    DrawTriangle();
 
     // make it appear (before this, it's hidden in the rear buffer)
     glFlush();
