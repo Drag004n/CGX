@@ -26,6 +26,8 @@ void ReadData( string fname);
 
 void CopyVertices(vector <Vertex> vertices);
 
+
+
 // initialize Open GL lighting and projection matrix
 void InitLightingAndProjection() // to be executed once before drawing
 {
@@ -93,64 +95,48 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
     }
  }
  file.close();
- //test correct transfer of data
-//    cout << tris[0].getA() << endl;
-//    cout << *(points[2].getCoord()+1) << endl;
-//    cout << points[2].getCoord()[0] << endl;
+
 }
 
+float * cross( float *n, float a[3], float b[3]){ // c = a cross b
+ n[0] = a[1]*b[2] - a[2]*b[1];
+ n[1] = a[2]*b[0] - a[0]*b[2];
+ n[2] = a[0]*b[1] - a[1]*b[0];
+
+ return n;
+}
 
 void DrawTriangle(){
-
     //looping through the triangles
     glBegin( GL_TRIANGLES);
         for( int i=0; i<tris.size()-1; i++){
-            glVertex3fv(points[tris[i].getA()].getCoord());
-            glVertex3fv(points[tris[i].getB()].getCoord());
-            glVertex3fv(points[tris[i].getC()].getCoord());
+            float * a = points[tris[i].getA()].getCoord();
+            float * b = points[tris[i].getB()].getCoord();
+            float * c = points[tris[i].getC()].getCoord();
+
+            float nv[3];
+
+            float * n= nv;
+            float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
+            float ac[]= {c[0]-a[0] ,c[1]-a[1],c[2]-a[2]};
+
+            n = cross(n,ab,ac);
+
+
+//             for( int i=0; i<3; i++){
+//                 cout <<n[i]  << endl;
+//             }
+
+            points[tris[i].getA()].getCoord();
+
+
+            glNormal3fv(n);
+            glVertex3fv(a);
+            glVertex3fv(b);
+            glVertex3fv(c);
         }
     glEnd();
 
-
-
-
-//    for( int i=0; i<=reso; i++){ // compute x and y coordinates of citcle
-//        c[i] = cos( 2.0 * PI * i / reso );
-//        s[i] = sin( 2.0 * PI * i / reso );
-//        cout << i << " " << c[i] << endl;
-//    }
-
-//    glBegin( GL_TRIANGLES);
-
-//    Vertex points[4];
-//    for(int i = 0; i<triangle.getPoints().size(); i++){
-//       points[i];
-//    }
-//    //points = triangle.getPoints();
-
-//    for(int i=0; i<triangle.getTris().size(); i++){
-//         glNormal3f(3.0,0.0,1.0);
-//         glVertex3f(8.0,0.0,0.0);
-//         glVertex3f(0.0,8.0,0.0);
-//         glVertex3f(0.0,0.0,8.0);
-
-//    }
-//    glEnd();
-
-//        glBegin( GL_QUADS); // each 4 points define a polygon
-//        for( int i=0; i<reso; i++){
-//            glNormal3f( c[i], s[i], 0.0); // normal vector used for all consecutive points
-//            glVertex3f( c[i], s[i], 3.0); // 2 points ...
-//            glVertex3f( c[i], s[i], 0.0);
-
-//            glNormal3f( c[i+1], s[i+1], 0.0); // another normal with two more points
-//            glVertex3f( c[i+1], s[i+1], 0.0);
-//            glVertex3f( c[i+1], s[i+1], 3.0);
-//        }
-//        glEnd(); // concludes GL_QUADS
-
-//    delete[] c; // de-allocate space
-//    delete[] s;
 }
 
 // define material color properties for front and back side
@@ -176,6 +162,7 @@ void SetMaterialColor( int side, float r, float g, float b){
     glMaterialfv( mat, GL_SPECULAR, spe);
     glMaterialf( mat, GL_SHININESS, 50.0); // Phong constant for the size of highlights
 }
+
 
 
 OGLWidget::OGLWidget(QWidget *parent) // constructor
@@ -220,7 +207,7 @@ void OGLWidget::paintGL() // draw everything, to be called repeatedly
     // draw the scene
     glMatrixMode( GL_MODELVIEW);
     glLoadIdentity();				// Reset The Current Modelview Matrix
-    glTranslated( 0 ,0 ,-10.0);     // Move 10 units backwards in z, since camera is at origin
+    glTranslated( 0 ,-3 ,-10.0);     // Move 10 units backwards in z, since camera is at origin
     glScaled( 1.0, 1.0, 1.0);       // scale objects
     glRotated( alpha, 0, 3, 1);     // continuous rotation
     alpha += 5;
