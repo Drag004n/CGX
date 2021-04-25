@@ -5,20 +5,14 @@ Vertex::Vertex()
 {
 }
 
-float Vertex::getX(){
-    return x;
+float * Vertex::getCoord(){
+    return coord;
 }
 
-float Vertex::getY(){
-    return y;
-}
 
-float Vertex::getZ(){
-    return z;
-}
 
 Vertex::Vertex( float a, float b, float c){ // constructor with initialization
-    x = a;
-    y = b;
-    z = c;
+    coord[0] = a;
+    coord[1] = b;
+    coord[2] = c;
 }

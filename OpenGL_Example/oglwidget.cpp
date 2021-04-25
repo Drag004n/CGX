@@ -24,6 +24,8 @@ vector <Triangle> tris;
 
 void ReadData( string fname);
 
+void CopyVertices(vector <Vertex> vertices);
+
 // initialize Open GL lighting and projection matrix
 void InitLightingAndProjection() // to be executed once before drawing
 {
@@ -32,6 +34,10 @@ void InitLightingAndProjection() // to be executed once before drawing
 
     ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\OpenGL_Example\\tetra.obj");
     //ReadData("D:\\Downloads\\Github\\CGX\\OpenGL_Example\\tetra.obj");
+
+// for( int i=0; i<tris.size(); i++){
+//     cout <<tris[i].getA() << tris[i].getB() << tris[i].getC() <<endl;
+// }
 
 
 
@@ -88,20 +94,23 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  }
  file.close();
  //test correct transfer of data
-  cout << points[1].getX() << endl;
-  cout << tris[0].getA() << endl;
+//    cout << tris[0].getA() << endl;
+//    cout << *(points[2].getCoord()+1) << endl;
+//    cout << points[2].getCoord()[0] << endl;
 }
 
 
-void DrawTriangle(){ // drawing a cylinder in OpenGL
-    // alocate memory for x and y coordinates on a circle
-//    vector<Vertex> points = triangle.getPoints();
-//    double *c = new double[ reso+1];
-//    double *s = new double[ reso+1];
+void DrawTriangle(){
 
-//    Vertex * vertexPointer;
+    //looping through the triangles
+    glBegin( GL_TRIANGLES);
+        for( int i=0; i<tris.size()-1; i++){
+            glVertex3fv(points[tris[i].getA()].getCoord());
+            glVertex3fv(points[tris[i].getB()].getCoord());
+            glVertex3fv(points[tris[i].getC()].getCoord());
+        }
+    glEnd();
 
-    //cout << triangle.getPoints().size() << endl;
 
 
 
@@ -111,22 +120,22 @@ void DrawTriangle(){ // drawing a cylinder in OpenGL
 //        cout << i << " " << c[i] << endl;
 //    }
 
-    glBegin( GL_TRIANGLES);
+//    glBegin( GL_TRIANGLES);
 
 //    Vertex points[4];
 //    for(int i = 0; i<triangle.getPoints().size(); i++){
-//        points[i];
+//       points[i];
 //    }
-    //points = triangle.getPoints();
+//    //points = triangle.getPoints();
 
 //    for(int i=0; i<triangle.getTris().size(); i++){
 //         glNormal3f(3.0,0.0,1.0);
-         glVertex3f(8.0,0.0,0.0);
-         glVertex3f(0.0,8.0,0.0);
-         glVertex3f(0.0,0.0,8.0);
+//         glVertex3f(8.0,0.0,0.0);
+//         glVertex3f(0.0,8.0,0.0);
+//         glVertex3f(0.0,0.0,8.0);
 
 //    }
-    glEnd();
+//    glEnd();
 
 //        glBegin( GL_QUADS); // each 4 points define a polygon
 //        for( int i=0; i<reso; i++){

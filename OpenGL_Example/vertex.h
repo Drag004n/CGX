@@ -5,14 +5,14 @@
 
 class Vertex{
 public:
+    static const int size = 3;
     Vertex(); // empty constructor
     Vertex(float a, float b, float c);
-    float getX();
-    float getY();
-    float getZ();
+    float * getCoord();
 
 private:
-    float x,y,z;
+
+    float coord[size]; //coordinates
 };
 
 
