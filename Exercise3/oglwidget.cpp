@@ -28,8 +28,14 @@ void ReadData( string fname);
 void InitLightingAndProjection() // to be executed once before drawing
 {
 
-    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\cube.obj");
-    //ReadData("D:\\Downloads\\Github\\CGX\\Exercise3\\cube.obj");
+    // khai's path
+    //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\cube.obj");
+
+    // finja's path
+    ReadData("D:\\Downloads\\Github\\CGX\\Exercise3\\cube.obj");
+
+    // reda's path
+    //ReadData("");
 
 
     // light positions and colors
@@ -64,6 +70,88 @@ void InitLightingAndProjection() // to be executed once before drawing
     glOrtho( -15, 15, -10, 10, -20, 20); // orthogonal projection (xmin xmax ymin ymax zmin zmax)
     //glFrustum( -10, 10, -8, 8, 2, 20); // perspective projektion
 }
+
+// Method for subdivision using Chaikin's Algorithm plus drawing result
+void Subdivide( ){
+//    //placeholder vertices - cube
+//    vector<float> cube{
+//        0.0, 0.0, 0.0,
+//        1.0, 0.0, 0.0,
+//        1.0, 1.0, 0.0,
+//        0.0, 1.0, 0.0,
+//        0.0, 0.0, 1.0,
+//        1.0, 0.0, 1.0,
+//        1.0, 1.0, 1.0,
+//        0.0, 1.0, 1.0
+//    };
+
+    //draw triangle (control polygon)
+    glBegin(GL_LINE_STRIP);
+    for (int i=0; i<tris.size(); i++){
+        float * a = points[tris[i].getA()].getCoord();
+        float * b = points[tris[i].getB()].getCoord();
+        float * c = points[tris[i].getC()].getCoord();
+
+        glVertex3fv(a);
+        glVertex3fv(b);
+        glVertex3fv(c);
+    }
+    glEnd();
+}
+
+//    //loop for 4 subdivisions & draw
+//    for (int i=1; 1<=4; i++){
+//        //subdiv matrix is 2*n-2 times n in size while n is amount of points
+//        //fill subdiv with 0s and then corresponding values
+//        vector<float> subdiv;
+//        int n = 4;
+//        for (int i=0; i<(2*n-2)*2; i++){
+//            subdiv.push_back(0);
+//        }
+
+//        subdiv[1] = 1.0;
+//        subdiv[2] = 0.5;
+//        subdiv[3] = 0.5;
+
+//        subdiv[(2*n-2)*n] = 1.0;
+//        subdiv[(2*n-3)*n] = 0.5;
+//        subdiv[(2*n-3)*n-1] = 0.5;
+
+//        for (int i=2; i<2-n; i++){
+//            subdiv[(2*i-1)*i]= 0.75;
+//            subdiv[(2*i-1)*i+1]= 0.25;
+//            subdiv[(2*i)*i]= 0.25;
+//            subdiv[(2*i)*i+1]= 0.75;
+//        }
+
+        // vertice_vec = subdiv * vertice_vec
+        // even possible since they aren't matrix??
+        // draw polygon
+//        glBegin(GL_LINE_STRIP);
+//        for (int i=0; i<tris.size(); i++){
+//            float * a = points[tris[i].getA()].getCoord();
+//            float * b = points[tris[i].getB()].getCoord();
+//            float * c = points[tris[i].getC()].getCoord();
+
+//            glVertex3fv(a);
+//            glVertex3fv(b);
+//            glVertex3fv(c);
+//        }
+//        glEnd();
+    //}
+
+    //draw finished polygon
+//    glBegin(GL_LINE_STRIP);
+//    for (int i=0; i<tris.size(); i++){
+//        float * a = points[tris[i].getA()].getCoord();
+//        float * b = points[tris[i].getB()].getCoord();
+//        float * c = points[tris[i].getC()].getCoord();
+
+//        glVertex3fv(a);
+//        glVertex3fv(b);
+//        glVertex3fv(c);
+//    }
+//    glEnd();
 
 void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  ifstream file( fname);
@@ -176,6 +264,7 @@ void OGLWidget::paintGL() // draw everything, to be called repeatedly
 
     // draw a cylinder with default resolution
     DrawTriangle();
+    //Subdivide();
 
     // make it appear (before this, it's hidden in the rear buffer)
     glFlush();
