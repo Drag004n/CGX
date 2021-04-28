@@ -28,13 +28,8 @@ void ReadData( string fname);
 void InitLightingAndProjection() // to be executed once before drawing
 {
 
-    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\OpenGL_Example\\tetra.obj");
-    //ReadData("D:\\Downloads\\Github\\CGX\\OpenGL_Example\\tetra.obj");
-
- for( int i=0; i<tris.size(); i++){
-     cout <<tris[i].getA() << tris[i].getB() << tris[i].getC() <<endl;
- }
-
+    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\cube.obj");
+    //ReadData("D:\\Downloads\\Github\\CGX\\Exercise3\\cube.obj");
 
 
     // light positions and colors
@@ -80,13 +75,8 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  float x, y, z;
  while( file){
     file >> key >> x >> y >> z;
-//    cout << key <<", "<< x <<", "<< y <<", "<< z << endl;
     if (key == "v"){
         points.push_back(Vertex(x,y,z));
-    }
-    if (key == "f"){
-        tris.push_back(Triangle(x-1,y-1,z-1));
-
     }
     key="a";
  }
@@ -94,42 +84,15 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
 
 }
 
-float * cross( float *n, float a[3], float b[3]){ // c = a cross b
- n[0] = a[1]*b[2] - a[2]*b[1];
- n[1] = a[2]*b[0] - a[0]*b[2];
- n[2] = a[0]*b[1] - a[1]*b[0];
-
- return n;
-}
 
 void DrawTriangle(){
     //looping through the triangles
-    glBegin( GL_TRIANGLES);
-        for( int i=0; i<tris.size(); i++){
-            float * a = points[tris[i].getA()].getCoord();
-            float * b = points[tris[i].getB()].getCoord();
-            float * c = points[tris[i].getC()].getCoord();
+    glBegin( GL_LINE_STRIP);
+        for( int i=0; i<points.size(); i++){
 
-            float nv[3];
+            float * point = points[i].getCoord();
 
-            float * n= nv;
-            float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
-            float ac[]= {c[0]-a[0] ,c[1]-a[1],c[2]-a[2]};
-
-            n = cross(n,ab,ac);
-
-
-//             for( int i=0; i<3; i++){
-//                 cout <<n[i]  << endl;
-//             }
-
-            points[tris[i].getA()].getCoord();
-
-
-            glNormal3fv(n);
-            glVertex3fv(a);
-            glVertex3fv(b);
-            glVertex3fv(c);
+            glVertex3fv(point);
         }
     glEnd();
 }
