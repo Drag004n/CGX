@@ -20,19 +20,39 @@ static double alpha = 45.0; // rotation angle
 
 vector <Vertex> points;
 
+vector <Vertex> subdiv1;
+
+vector <Vertex> subdiv2;
+
+vector <Vertex> subdiv3;
+
 vector <Triangle> tris;
 
 void ReadData( string fname);
+
+vector <Vertex> Subdivide(vector <Vertex> pointList);
+
+vector <Vertex> Chaikin(vector <Vertex> pointList,int count);
+
+void DrawTriangle();
+
+void SetMaterialColor( int side, float r, float g, float b);
 
 // initialize Open GL lighting and projection matrix
 void InitLightingAndProjection() // to be executed once before drawing
 {
 
     // khai's path
-    //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\cube.obj");
+    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\cube.obj");
+
+    subdiv1 = Chaikin(points, 1);
+
+    subdiv2 = Chaikin(points, 2);
+
+    subdiv3 = Chaikin(points, 3);
 
     // finja's path
-    ReadData("D:\\Downloads\\Github\\CGX\\Exercise3\\cube.obj");
+    //ReadData("D:\\Downloads\\Github\\CGX\\Exercise3\\cube.obj");
 
     // reda's path
     //ReadData("");
@@ -71,33 +91,33 @@ void InitLightingAndProjection() // to be executed once before drawing
     //glFrustum( -10, 10, -8, 8, 2, 20); // perspective projektion
 }
 
-// Method for subdivision using Chaikin's Algorithm plus drawing result
-void Subdivide( ){
-//    //placeholder vertices - cube
-//    vector<float> cube{
-//        0.0, 0.0, 0.0,
-//        1.0, 0.0, 0.0,
-//        1.0, 1.0, 0.0,
-//        0.0, 1.0, 0.0,
-//        0.0, 0.0, 1.0,
-//        1.0, 0.0, 1.0,
-//        1.0, 1.0, 1.0,
-//        0.0, 1.0, 1.0
-//    };
+//// Method for subdivision using Chaikin's Algorithm plus drawing result
+//void Subdivide( ){
+////    //placeholder vertices - cube
+////    vector<float> cube{
+////        0.0, 0.0, 0.0,
+////        1.0, 0.0, 0.0,
+////        1.0, 1.0, 0.0,
+////        0.0, 1.0, 0.0,
+////        0.0, 0.0, 1.0,
+////        1.0, 0.0, 1.0,
+////        1.0, 1.0, 1.0,
+////        0.0, 1.0, 1.0
+////    };
 
-    //draw triangle (control polygon)
-    glBegin(GL_LINE_STRIP);
-    for (int i=0; i<tris.size(); i++){
-        float * a = points[tris[i].getA()].getCoord();
-        float * b = points[tris[i].getB()].getCoord();
-        float * c = points[tris[i].getC()].getCoord();
+//    //draw triangle (control polygon)
+//    glBegin(GL_LINE_STRIP);
+//    for (int i=0; i<tris.size(); i++){
+//        float * a = points[tris[i].getA()].getCoord();
+//        float * b = points[tris[i].getB()].getCoord();
+//        float * c = points[tris[i].getC()].getCoord();
 
-        glVertex3fv(a);
-        glVertex3fv(b);
-        glVertex3fv(c);
-    }
-    glEnd();
-}
+//        glVertex3fv(a);
+//        glVertex3fv(b);
+//        glVertex3fv(c);
+//    }
+//    glEnd();
+//}
 
 //    //loop for 4 subdivisions & draw
 //    for (int i=1; 1<=4; i++){
@@ -153,6 +173,7 @@ void Subdivide( ){
 //    }
 //    glEnd();
 
+
 void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  ifstream file( fname);
  if (!file){
@@ -169,16 +190,93 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
     key="a";
  }
  file.close();
-
 }
 
+vector <Vertex> Chaikin(vector <Vertex> pointList,int count){
+
+    vector <Vertex> newPoints = pointList;
+
+    for (int i= 0; i < count; i++){
+        newPoints = Subdivide(newPoints);
+    }
+
+    return newPoints;
+}
+
+//creating the new Point
+vector <Vertex> Subdivide(vector <Vertex> pointList){
+
+    vector <Vertex> newPoints;
+
+    for (int i= 0; i < pointList.size()-1; i++){
+        float * a = pointList[i].getCoord();
+        float * b = pointList[i+1].getCoord();
+
+
+        float x;
+        float y;
+        float z;
+
+        float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
+
+        x= a[0] + 0.25*ab[0];
+        y= a[1] + 0.25*ab[1];
+        z= a[2] + 0.25*ab[2];
+
+        Vertex newA = Vertex(x,y,z);
+
+        x= a[0] + 0.75*ab[0];
+        y= a[1] + 0.75*ab[1];
+        z= a[2] + 0.75*ab[2];
+
+        Vertex newB = Vertex(x,y,z);
+
+        newPoints.push_back(newA);
+        newPoints.push_back(newB);
+
+    }
+
+    return newPoints;
+}
 
 void DrawTriangle(){
     //looping through the triangles
+
     glBegin( GL_LINE_STRIP);
         for( int i=0; i<points.size(); i++){
 
             float * point = points[i].getCoord();
+
+            glVertex3fv(point);
+        }
+    glEnd();
+
+    SetMaterialColor( 0, 2.0, 1.2, 1.2);  // front color is red
+    glBegin( GL_LINE_STRIP);
+        for( int i=0; i<subdiv1.size(); i++){
+
+            float * point = subdiv1[i].getCoord();
+
+            glVertex3fv(point);
+        }
+    glEnd();
+
+    SetMaterialColor( 0, 3.0, 3.2, 3.2);  // front color is red
+
+    glBegin( GL_LINE_STRIP);
+        for( int i=0; i<subdiv2.size(); i++){
+
+            float * point = subdiv2[i].getCoord();
+
+            glVertex3fv(point);
+        }
+    glEnd();
+
+    SetMaterialColor( 0, 4.0, 4.2, 4.2);  // front color is red
+    glBegin( GL_LINE_STRIP);
+        for( int i=0; i<subdiv3.size(); i++){
+
+            float * point = subdiv3[i].getCoord();
 
             glVertex3fv(point);
         }
@@ -208,8 +306,6 @@ void SetMaterialColor( int side, float r, float g, float b){
     glMaterialfv( mat, GL_SPECULAR, spe);
     glMaterialf( mat, GL_SHININESS, 50.0); // Phong constant for the size of highlights
 }
-
-
 
 OGLWidget::OGLWidget(QWidget *parent) // constructor
     : QOpenGLWidget(parent)
