@@ -70,6 +70,7 @@ void InitLightingAndProjection() // to be executed once before drawing
     //glFrustum( -10, 10, -8, 8, 2, 20); // perspective projektion
 }
 
+// function for reading out data from a file and storing vertices and faces in vectors
 void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  ifstream file( fname);
  if (!file){
@@ -94,6 +95,7 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
 
 }
 
+// cross product of vectors
 float * cross( float *n, float a[3], float b[3]){ // c = a cross b
  n[0] = a[1]*b[2] - a[2]*b[1];
  n[1] = a[2]*b[0] - a[0]*b[2];
@@ -102,6 +104,7 @@ float * cross( float *n, float a[3], float b[3]){ // c = a cross b
  return n;
 }
 
+// used to draw the pyramid out of the given vertices and faces
 void DrawTriangle(){
     //looping through the triangles
     glBegin( GL_TRIANGLES);
@@ -112,6 +115,7 @@ void DrawTriangle(){
 
             float nv[3];
 
+            // cross product for normal vector calculation
             float * n= nv;
             float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
             float ac[]= {c[0]-a[0] ,c[1]-a[1],c[2]-a[2]};

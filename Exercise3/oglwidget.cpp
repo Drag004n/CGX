@@ -16,8 +16,7 @@ using namespace std;
 
 static double alpha = 45.0; // rotation angle
 
-//Faces usually have 3 values as they are triangles
-
+// global variables and functions
 vector <Vertex> points;
 
 vector <Vertex> subdiv1;
@@ -45,17 +44,17 @@ void InitLightingAndProjection() // to be executed once before drawing
     // khai's path
     ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\cube.obj");
 
-    subdiv1 = Chaikin(points, 1);
-
-    subdiv2 = Chaikin(points, 2);
-
-    subdiv3 = Chaikin(points, 3);
-
     // finja's path
     //ReadData("D:\\Downloads\\Github\\CGX\\Exercise3\\cube.obj");
 
     // reda's path
     //ReadData("");
+
+    subdiv1 = Chaikin(points, 1);
+
+    subdiv2 = Chaikin(points, 2);
+
+    subdiv3 = Chaikin(points, 3);
 
 
     // light positions and colors
@@ -173,7 +172,7 @@ void InitLightingAndProjection() // to be executed once before drawing
 //    }
 //    glEnd();
 
-
+// method for reading vertices ( and faces) out of a file and storing it in vectors
 void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  ifstream file( fname);
  if (!file){
@@ -192,6 +191,7 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  file.close();
 }
 
+// Chaikin's algorithm - loop amount adjustable
 vector <Vertex> Chaikin(vector <Vertex> pointList,int count){
 
     vector <Vertex> newPoints = pointList;
@@ -203,41 +203,40 @@ vector <Vertex> Chaikin(vector <Vertex> pointList,int count){
     return newPoints;
 }
 
-//creating the new Point
+// function for subdivision used in Chaikin's algorithm
 vector <Vertex> Subdivide(vector <Vertex> pointList){
 
 
     vector <Vertex> newPoints;
 
-    //Loop to create the new Point with existing points
+    // loop to create the new subdivision points out of existing points
     for (int i= 0; i < pointList.size()-1; i++){
-        //initiliaze points
+
         float * a = pointList[i].getCoord();
         float * b = pointList[i+1].getCoord();
 
-        //variable points to push in new vector
         float x;
         float y;
         float z;
 
-        //calculate difference between to points
+        // calculate vector of A to B
         float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
 
-        //calculate cordinates for first vector
+        // getting coordinates for first subdivision point
         x= a[0] + 0.25*ab[0];
         y= a[1] + 0.25*ab[1];
         z= a[2] + 0.25*ab[2];
 
         Vertex newA = Vertex(x,y,z);
 
-        //calculate cordinates for second vertrex
+        // ... second subdivision point
         x= a[0] + 0.75*ab[0];
         y= a[1] + 0.75*ab[1];
         z= a[2] + 0.75*ab[2];
 
         Vertex newB = Vertex(x,y,z);
 
-        //Push new vertex's in new vector
+        // push new vertices into vector
         newPoints.push_back(newA);
         newPoints.push_back(newB);
 
@@ -328,7 +327,7 @@ OGLWidget::OGLWidget(QWidget *parent) // constructor
 }
 
 OGLWidget::~OGLWidget() // destructor
-{
+{}
 
 void OGLWidget::stepAnimation()
 {

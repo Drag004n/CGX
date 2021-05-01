@@ -11,6 +11,7 @@ Triangle::Triangle()
 {
 }
 
+// constructor for three point triangles
 Triangle::Triangle(int x,int y, int z)
 {
     a = x;
