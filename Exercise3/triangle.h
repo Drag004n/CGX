@@ -1,3 +1,5 @@
+//author: Khai Tram, Reda Khalife, Finja Papke
+
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 

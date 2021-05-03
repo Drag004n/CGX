@@ -1,3 +1,5 @@
+//author: Khai Tram, Reda Khalife, Finja Papke
+
 #include "triangle.h"
 #include <iostream>
 #include <iomanip>

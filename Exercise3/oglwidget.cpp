@@ -1,3 +1,5 @@
+//author: Khai Tram, Reda Khalife, Finja Papke
+
 #include "oglwidget.h"
 #include <math.h>
 #include <iostream>
@@ -90,87 +92,6 @@ void InitLightingAndProjection() // to be executed once before drawing
     //glFrustum( -10, 10, -8, 8, 2, 20); // perspective projektion
 }
 
-//// Method for subdivision using Chaikin's Algorithm plus drawing result
-//void Subdivide( ){
-////    //placeholder vertices - cube
-////    vector<float> cube{
-////        0.0, 0.0, 0.0,
-////        1.0, 0.0, 0.0,
-////        1.0, 1.0, 0.0,
-////        0.0, 1.0, 0.0,
-////        0.0, 0.0, 1.0,
-////        1.0, 0.0, 1.0,
-////        1.0, 1.0, 1.0,
-////        0.0, 1.0, 1.0
-////    };
-
-//    //draw triangle (control polygon)
-//    glBegin(GL_LINE_STRIP);
-//    for (int i=0; i<tris.size(); i++){
-//        float * a = points[tris[i].getA()].getCoord();
-//        float * b = points[tris[i].getB()].getCoord();
-//        float * c = points[tris[i].getC()].getCoord();
-
-//        glVertex3fv(a);
-//        glVertex3fv(b);
-//        glVertex3fv(c);
-//    }
-//    glEnd();
-//}
-
-//    //loop for 4 subdivisions & draw
-//    for (int i=1; 1<=4; i++){
-//        //subdiv matrix is 2*n-2 times n in size while n is amount of points
-//        //fill subdiv with 0s and then corresponding values
-//        vector<float> subdiv;
-//        int n = 4;
-//        for (int i=0; i<(2*n-2)*2; i++){
-//            subdiv.push_back(0);
-//        }
-
-//        subdiv[1] = 1.0;
-//        subdiv[2] = 0.5;
-//        subdiv[3] = 0.5;
-
-//        subdiv[(2*n-2)*n] = 1.0;
-//        subdiv[(2*n-3)*n] = 0.5;
-//        subdiv[(2*n-3)*n-1] = 0.5;
-
-//        for (int i=2; i<2-n; i++){
-//            subdiv[(2*i-1)*i]= 0.75;
-//            subdiv[(2*i-1)*i+1]= 0.25;
-//            subdiv[(2*i)*i]= 0.25;
-//            subdiv[(2*i)*i+1]= 0.75;
-//        }
-
-        // vertice_vec = subdiv * vertice_vec
-        // even possible since they aren't matrix??
-        // draw polygon
-//        glBegin(GL_LINE_STRIP);
-//        for (int i=0; i<tris.size(); i++){
-//            float * a = points[tris[i].getA()].getCoord();
-//            float * b = points[tris[i].getB()].getCoord();
-//            float * c = points[tris[i].getC()].getCoord();
-
-//            glVertex3fv(a);
-//            glVertex3fv(b);
-//            glVertex3fv(c);
-//        }
-//        glEnd();
-    //}
-
-    //draw finished polygon
-//    glBegin(GL_LINE_STRIP);
-//    for (int i=0; i<tris.size(); i++){
-//        float * a = points[tris[i].getA()].getCoord();
-//        float * b = points[tris[i].getB()].getCoord();
-//        float * c = points[tris[i].getC()].getCoord();
-
-//        glVertex3fv(a);
-//        glVertex3fv(b);
-//        glVertex3fv(c);
-//    }
-//    glEnd();
 
 // method for reading vertices ( and faces) out of a file and storing it in vectors
 void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
@@ -196,6 +117,7 @@ vector <Vertex> Chaikin(vector <Vertex> pointList,int count){
 
     vector <Vertex> newPoints = pointList;
 
+    //recursive fucntion call to do different levels of the algorhythm
     for (int i= 0; i < count; i++){
         newPoints = Subdivide(newPoints);
     }
@@ -257,7 +179,7 @@ void DrawTriangle(){
         }
     glEnd();
 
-    SetMaterialColor( 0, 2.0, 1.2, 1.2);  // front color is red
+    SetMaterialColor( 0, 0, 2, 0);  // front color is red
     glBegin( GL_LINE_STRIP);
         for( int i=0; i<subdiv1.size(); i++){
 
@@ -267,7 +189,7 @@ void DrawTriangle(){
         }
     glEnd();
 
-    SetMaterialColor( 0, 3.0, 3.2, 3.2);  // front color is red
+    SetMaterialColor( 0, 0, 0, 0);  // front color is red
 
     glBegin( GL_LINE_STRIP);
         for( int i=0; i<subdiv2.size(); i++){
@@ -278,7 +200,7 @@ void DrawTriangle(){
         }
     glEnd();
 
-    SetMaterialColor( 0, 4.0, 4.2, 4.2);  // front color is red
+    SetMaterialColor( 0, .0, 0, 2);  // front color is red
     glBegin( GL_LINE_STRIP);
         for( int i=0; i<subdiv3.size(); i++){
 

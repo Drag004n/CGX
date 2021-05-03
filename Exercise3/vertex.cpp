@@ -1,3 +1,5 @@
+//author: Khai Tram, Reda Khalife, Finja Papke
+
 #include "vertex.h"
 #include <QObject>
 
