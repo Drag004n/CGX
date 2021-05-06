@@ -37,14 +37,24 @@ vector <Vertex> Chaikin(vector <Vertex> pointList,int count);
 
 void DrawTriangle();
 
+Vertex ver1(1, 2, 3);
+Vertex ver2(1, 2, 3);
+
+Vertex operatorPlus(Vertex a, Vertex b){
+    Vertex firstVector = Vertex( a.p[0] + b.p[0], a.p[1] + b.p[1], a.p[2] + b.p[2]);
+    return firstVector;
+}
+
 void SetMaterialColor( int side, float r, float g, float b);
 
 // initialize Open GL lighting and projection matrix
 void InitLightingAndProjection() // to be executed once before drawing
 {
+    Vertex neew = operatorPlus(ver1, ver2);
+    cout << neew.getCoord() << endl;
 
     // khai's path
-    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\cube.obj");
+    //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\cube.obj");
 
     // finja's path
     //ReadData("D:\\Downloads\\Github\\CGX\\Exercise3\\cube.obj");

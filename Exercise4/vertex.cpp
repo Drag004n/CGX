@@ -18,20 +18,20 @@ Vertex::Vertex( float a, float b, float c){ // constructor with initialization
 }
 
 // add points or vectors
-Vertex Vertex::operatorPlus( Vertex a, Vertex b){
-    Vertex firstVector = Vertex( a.p[0] + b.p[0], a.p[1] + b.p[1], a.p[2] + b.p[2]);
-    return firstVector;
-};
-
-// subtract points or vectors
-//Vertex Vertex::operatorMinus(Vertex a){
-//    return -1*a;
+//Vertex Vertex::operatorPlus( Vertex a, Vertex b){
+//    Vertex firstVector = Vertex( a.p[0] + b.p[0], a.p[1] + b.p[1], a.p[2] + b.p[2]);
+//    return firstVector;
 //};
 
-// product between scalar and vector
-Vertex Vertex:: operatorMultipy( float a, Vertex b){
-    return Vertex( a*b.p[0], a*b.p[1], a*b.p[2]);
-};
+//// subtract points or vectors
+////Vertex Vertex::operatorMinus(Vertex a){
+////    return -1*a;
+////};
+
+//// product between scalar and vector
+//Vertex Vertex:: operatorMultipy( float a, Vertex b){
+//    return Vertex( a*b.p[0], a*b.p[1], a*b.p[2]);
+//};
 
 // scalar product
 //float Vertex::operatorMultiplyTwo( Vertex a, Vertex b){
@@ -40,5 +40,5 @@ Vertex Vertex:: operatorMultipy( float a, Vertex b){
 //};
 
 // cross product
-void::operatorCross( Vertex a, Vertex b){
-};
+//void::operatorCross( Vertex a, Vertex b){
+//};
