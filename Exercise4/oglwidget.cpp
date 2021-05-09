@@ -40,18 +40,55 @@ void DrawTriangle();
 Vertex ver1(1, 2, 3);
 Vertex ver2(1, 2, 3);
 
-Vertex operatorPlus(Vertex a, Vertex b){
-    Vertex firstVector = Vertex( a.p[0] + b.p[0], a.p[1] + b.p[1], a.p[2] + b.p[2]);
+Vertex operator+(Vertex a, Vertex b){
+    Vertex firstVector = Vertex( a.coord[0] + b.coord[0], a.coord[1] + b.coord[1], a.coord[2] + b.coord[2]);
     return firstVector;
 }
+Vertex operator-(Vertex a, Vertex b){
+    Vertex firstVector = Vertex( a.coord[0] - b.coord[0], a.coord[1] - b.coord[1], a.coord[2] - b.coord[2]);
+    return firstVector;
+}
+Vertex operator-( Vertex a){ // unary -
+    return -1*a;
+}
+// multiply float with vertex
+Vertex operator*( float s, Vertex b){
+    return Vertex( s*b.coord[0], s*b.coord[1], s*b.coord[2]);
+}
+// ... and vice versa
+Vertex operator*( Vertex a, float t){
+    return t*a;
+}
+// scalar product
+float operator*( Vertex a, Vertex b){
+    return a.coord[0] * b.coord[0] + a.coord[1] * b.coord[1] + a.coord[2] * b.coord[2];
+}
+// cross product calculation
+void cross( float c[3], float a[3], float b[3]){ // c = a cross b
+ c[0] = a[1]*b[2] - a[2]*b[1];
+ c[1] = a[2]*b[0] - a[0]*b[2];
+ c[2] = a[0]*b[1] - a[1]*b[0];
+}
+// cross operator
+Vertex operator%( Vertex a, Vertex b){
+    Vertex c;
+    cross( c.coord, a.coord, b.coord);
+    return c;
+}
+
+
+
 
 void SetMaterialColor( int side, float r, float g, float b);
 
 // initialize Open GL lighting and projection matrix
 void InitLightingAndProjection() // to be executed once before drawing
 {
-    Vertex neew = operatorPlus(ver1, ver2);
-    cout << neew.getCoord() << endl;
+    Vertex neew =ver1+ver2;
+    for (int i = 0; i<3 ;i++){
+        cout << neew.getCoord()[i] << endl ;
+    }
+
 
     // khai's path
     //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\cube.obj");

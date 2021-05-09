@@ -7,7 +7,6 @@
 
 class Vertex{//alternativley, use getters and setters
 public:
-    float p[3];//coordinates
     static const int size = 3;
 
     Vertex(); // empty constructor
@@ -15,16 +14,16 @@ public:
     Vertex(float a, float b, float c);
     float * getCoord();
 
-    friend Vertex operatorPlus( Vertex a, Vertex b); // add points or vectors
-    friend Vertex operatorMinus( Vertex a); // subtract points or vectors
-    friend Vertex operatorMultipy( float a, Vertex b); // product between scalar and vector
-    friend float operatorScalar( Vertex a, Vertex b); // scalar product
-    friend void operatorCross( Vertex a, Vertex b); // cross product
-    friend float * getPoint(Vertex a, int position);
+    friend Vertex operator+( Vertex a, Vertex b); // add points or vectors
+    friend Vertex operator-( Vertex a, Vertex b); // subtract points or vectors
+    friend Vertex operator*( float a, Vertex b); // product between scalar and vector
+    friend float operator*( Vertex a, Vertex b); // scalar product
+    friend Vertex operator%( Vertex a, Vertex b); // cross product
 
 
 private:
     float coord[size]; //coordinates
+
 
 
 };
