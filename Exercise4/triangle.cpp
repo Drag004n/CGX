@@ -34,7 +34,7 @@ int Triangle::getC(){
 }
 
 //print method
-//void myVector::Print( string text = "myVector ="){
+//void print( string text = "myVector ="){
 //    cout << text;
 //    cout << " [ " << xyz[0] << "; " << xyz[1] << "; " << xyz[2] << "]" << endl;
 //}

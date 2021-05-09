@@ -9,6 +9,7 @@
 #include <vector>
 #include "triangle.h"
 #include "vertex.h"
+#include "mesh.h"
 
 
 
