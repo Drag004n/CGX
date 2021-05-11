@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include "vertex.h"
+#include "mesh.h"
 #include <string>
 #include <vector>
 
@@ -21,6 +22,8 @@ public:
     int getA();
     int getB();
     int getC();
+
+    friend void ConnectivityAlgorithm(Mesh mesh);
 
 private:
     int iv[3]; // vertex indices

@@ -29,21 +29,26 @@ void Mesh::Print(){
     }
 }
 
-void Mesh::ConnectivityAlgorithm(vector <Vertex> pts, vector <Triangle> tris){
+void ConnectivityAlgorithm(Mesh mesh){
     vector <int> val;
 
     //set all vertice valences to 0
-    for (int i=0; i<pts.size(); i++){
+    for (int i=0; i<mesh.pts.size(); i++){
         val.push_back(0);
     }
 
     //run through triangles and find neighbors and valences
-    for (int i=0; i<tris.size(); i++){
-        Triangle t = tris[i];
-        int a = tris[i].getA();
-        int b = tris[i].getB();
-        int c = tris[i].getC();
-        //find t containing b and c but not a
+    for (int i=0; i<mesh.tris.size(); i++){
+        Triangle t = mesh.tris[i];
+        int a = mesh.tris[i].iv[0];
+        int b = mesh.tris[i].iv[1];
+        int c = mesh.tris[i].iv[2];
+         cout << " [ " << a << "; " << b << "; " << c << "]" << endl;
+        //find t0 containing b and c but not a
+//        for (Triangle t0 : mesh.tris) // iterate over array fibonacci
+//        {
+
+//        }
 
         //find t with c and a no b
 
