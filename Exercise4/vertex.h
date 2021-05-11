@@ -4,6 +4,9 @@
 #define VERTEX_H
 
 #include <QObject>
+#include <string>
+
+using namespace std;
 
 class Vertex{//alternativley, use getters and setters
 public:
@@ -13,6 +16,7 @@ public:
     Vertex(float points[3]);
     Vertex(float a, float b, float c);
     float * getCoord();
+    void Print();
 
     friend Vertex operator+( Vertex a, Vertex b); // add points or vectors
     friend Vertex operator-( Vertex a, Vertex b); // subtract points or vectors
@@ -23,9 +27,6 @@ public:
 
 private:
     float coord[size]; //coordinates
-
-
-
 };
 
 

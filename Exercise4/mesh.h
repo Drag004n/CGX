@@ -15,9 +15,14 @@ class Mesh
 {
 public:
     Mesh();
-    Mesh(vector <Vertex> points); // point list
-    Mesh(vector <int> valences); // valence list (no. of triangles for every point)
-    Mesh(vector <Triangle> tris); // triangle list
+    Mesh(vector <Vertex> points, vector <Triangle> tris);
+    void Print();
+private:
+    vector <Vertex> pts; // point list
+    vector <int> val; // valence list (no. of triangles for every point
+    vector <Triangle> tris; // triangle list
+
+    friend void ReadData(string fname);
 };
 
 #endif // MESH_H

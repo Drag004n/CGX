@@ -14,19 +14,20 @@ Mesh::Mesh()
 }
 
 //constructor for vector of vertices
-Mesh::Mesh(vector <Vertex> points)
+Mesh::Mesh(vector <Vertex> points, vector <Triangle> triangles)
 {
+    pts= points;
+    tris = triangles;
+}
+
+void Mesh::Print(){
+    for (int i= 0; i< pts.size();i++){
+        pts[i].Print();
+    }
+    for (int i= 0; i< tris.size();i++){
+        tris[i].Print();
+    }
 
 }
 
-//constructor for vector of valences
-Mesh::Mesh(vector <int> valences)
-{
 
-}
-
-//constructor for vector of triangles
-Mesh::Mesh(vector <Triangle> tris)
-{
-
-}

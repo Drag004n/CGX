@@ -14,24 +14,37 @@ Triangle::Triangle()
 }
 
 // constructor for three point triangle
-Triangle::Triangle(int x,int y, int z)
+//Triangle::Triangle(int x,int y, int z)
+//{
+//    a = x;
+//    b = y;
+//    c = z;
+//}
+
+
+
+Triangle::Triangle(int a, int b, int c)
 {
-    a = x;
-    b = y;
-    c = z;
+    iv[0]= a;
+    iv[1]= b;
+    iv[2]= c;
 }
 
-int Triangle::getA(){
-    return a;
+void Triangle::Print(){
+
+    cout << " [ " << iv[0] << "; " << iv[1] << "; " << iv[2] << "]" << endl;
 }
 
-int Triangle::getB(){
-    return b;
+Triangle::Triangle(int vertex[3], int adjtriangle[3],int edges[3])
+{
+    for (int i=0; i<3; i++){
+        iv[i] = vertex[i];
+        it[i] = adjtriangle[i];
+        ie[i] = edges[i];
+    }
 }
 
-int Triangle::getC(){
-    return c;
-}
+
 
 //print method
 //void print( string text = "myVector ="){

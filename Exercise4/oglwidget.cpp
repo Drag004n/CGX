@@ -20,15 +20,18 @@ using namespace std;
 static double alpha = 45.0; // rotation angle
 
 // global variables and functions
+
+//vector <Vertex> subdiv1;
+
+//vector <Vertex> subdiv2;
+
+//vector <Vertex> subdiv3;
+
 vector <Vertex> points;
 
-vector <Vertex> subdiv1;
-
-vector <Vertex> subdiv2;
-
-vector <Vertex> subdiv3;
-
 vector <Triangle> tris;
+
+Mesh tetraMesh;
 
 void ReadData( string fname);
 
@@ -41,42 +44,6 @@ void DrawTriangle();
 Vertex ver1(1, 2, 3);
 Vertex ver2(1, 2, 3);
 
-Vertex operator+(Vertex a, Vertex b){
-    Vertex firstVector = Vertex( a.coord[0] + b.coord[0], a.coord[1] + b.coord[1], a.coord[2] + b.coord[2]);
-    return firstVector;
-}
-Vertex operator-(Vertex a, Vertex b){
-    Vertex firstVector = Vertex( a.coord[0] - b.coord[0], a.coord[1] - b.coord[1], a.coord[2] - b.coord[2]);
-    return firstVector;
-}
-Vertex operator-( Vertex a){ // unary -
-    return -1*a;
-}
-// multiply float with vertex
-Vertex operator*( float s, Vertex b){
-    return Vertex( s*b.coord[0], s*b.coord[1], s*b.coord[2]);
-}
-// ... and vice versa
-Vertex operator*( Vertex a, float t){
-    return t*a;
-}
-// scalar product
-float operator*( Vertex a, Vertex b){
-    return a.coord[0] * b.coord[0] + a.coord[1] * b.coord[1] + a.coord[2] * b.coord[2];
-}
-// cross product calculation
-void cross( float c[3], float a[3], float b[3]){ // c = a cross b
- c[0] = a[1]*b[2] - a[2]*b[1];
- c[1] = a[2]*b[0] - a[0]*b[2];
- c[2] = a[0]*b[1] - a[1]*b[0];
-}
-// cross operator
-Vertex operator%( Vertex a, Vertex b){
-    Vertex c;
-    cross( c.coord, a.coord, b.coord);
-    return c;
-}
-
 
 
 
@@ -85,14 +52,16 @@ void SetMaterialColor( int side, float r, float g, float b);
 // initialize Open GL lighting and projection matrix
 void InitLightingAndProjection() // to be executed once before drawing
 {
-    Vertex neew =ver1+ver2;
-    for (int i = 0; i<3 ;i++){
-        cout << neew.getCoord()[i] << endl ;
-    }
+//    Vertex neew =ver1+ver2;
+//    for (int i = 0; i<3 ;i++){
+//        cout << neew.getCoord()[i] << endl ;
+//    }
 
 
     // khai's path
-    //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\cube.obj");
+    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\tetra.obj");
+
+    tetraMesh.Print();
 
     // finja's path
     //ReadData("D:\\Downloads\\Github\\CGX\\Exercise3\\cube.obj");
@@ -100,11 +69,11 @@ void InitLightingAndProjection() // to be executed once before drawing
     // reda's path
     //ReadData("");
 
-    subdiv1 = Chaikin(points, 1);
+//    subdiv1 = Chaikin(points, 1);
 
-    subdiv2 = Chaikin(points, 2);
+//    subdiv2 = Chaikin(points, 2);
 
-    subdiv3 = Chaikin(points, 3);
+//    subdiv3 = Chaikin(points, 3);
 
 
     // light positions and colors
@@ -151,13 +120,19 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  string key;
  float x, y, z;
  while( file){
-    file >> key >> x >> y >> z;
-    if (key == "v"){
-        points.push_back(Vertex(x,y,z));
-    }
-    key="a";
- }
- file.close();
+     file >> key >> x >> y >> z;
+ //    cout << key <<", "<< x <<", "<< y <<", "<< z << endl;
+     if (key == "v"){
+         tetraMesh.pts.push_back(Vertex(x,y,z));
+     }
+     if (key == "f"){
+         tetraMesh.tris.push_back(Triangle(x,y,z));
+
+     }
+     key="a";
+  }
+  file.close();
+
 }
 
 // Chaikin's algorithm - loop amount adjustable
@@ -218,45 +193,45 @@ vector <Vertex> Subdivide(vector <Vertex> pointList){
 void DrawTriangle(){
     //looping through the triangles
 
-    glBegin( GL_LINE_STRIP);
-        for( int i=0; i<points.size(); i++){
+//    glBegin( GL_LINE_STRIP);
+//        for( int i=0; i<points.size(); i++){
 
-            float * point = points[i].getCoord();
+//            float * point = points[i].getCoord();
 
-            glVertex3fv(point);
-        }
-    glEnd();
+//            glVertex3fv(point);
+//        }
+//    glEnd();
 
-    SetMaterialColor( 0, 0, 2, 0);  // front color is red
-    glBegin( GL_LINE_STRIP);
-        for( int i=0; i<subdiv1.size(); i++){
+//    SetMaterialColor( 0, 0, 2, 0);  // front color is red
+//    glBegin( GL_LINE_STRIP);
+//        for( int i=0; i<subdiv1.size(); i++){
 
-            float * point = subdiv1[i].getCoord();
+//            float * point = subdiv1[i].getCoord();
 
-            glVertex3fv(point);
-        }
-    glEnd();
+//            glVertex3fv(point);
+//        }
+//    glEnd();
 
-    SetMaterialColor( 0, 0, 0, 0);  // front color is red
+//    SetMaterialColor( 0, 0, 0, 0);  // front color is red
 
-    glBegin( GL_LINE_STRIP);
-        for( int i=0; i<subdiv2.size(); i++){
+//    glBegin( GL_LINE_STRIP);
+//        for( int i=0; i<subdiv2.size(); i++){
 
-            float * point = subdiv2[i].getCoord();
+//            float * point = subdiv2[i].getCoord();
 
-            glVertex3fv(point);
-        }
-    glEnd();
+//            glVertex3fv(point);
+//        }
+//    glEnd();
 
-    SetMaterialColor( 0, .0, 0, 2);  // front color is red
-    glBegin( GL_LINE_STRIP);
-        for( int i=0; i<subdiv3.size(); i++){
+//    SetMaterialColor( 0, .0, 0, 2);  // front color is red
+//    glBegin( GL_LINE_STRIP);
+//        for( int i=0; i<subdiv3.size(); i++){
 
-            float * point = subdiv3[i].getCoord();
+//            float * point = subdiv3[i].getCoord();
 
-            glVertex3fv(point);
-        }
-    glEnd();
+//            glVertex3fv(point);
+//        }
+//    glEnd();
 }
 
 // define material color properties for front and back side
