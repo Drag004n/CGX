@@ -18,6 +18,9 @@ public:
     Triangle(int vertex[3], int adjtriangle[3],int edges[3]);
     //Triangle(int x, int y, int z);
     void Print();
+    int getA();
+    int getB();
+    int getC();
 
 private:
     int iv[3]; // vertex indices

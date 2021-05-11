@@ -59,12 +59,12 @@ void InitLightingAndProjection() // to be executed once before drawing
 
 
     // khai's path
-    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\tetra.obj");
+    //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\tetra.obj");
 
     tetraMesh.Print();
 
     // finja's path
-    //ReadData("D:\\Downloads\\Github\\CGX\\Exercise3\\cube.obj");
+    ReadData("D:\\Downloads\\Github\\CGX\\Exercise4\\tetra.obj");
 
     // reda's path
     //ReadData("");
@@ -126,7 +126,7 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
          tetraMesh.pts.push_back(Vertex(x,y,z));
      }
      if (key == "f"){
-         tetraMesh.tris.push_back(Triangle(x,y,z));
+         tetraMesh.tris.push_back(Triangle(x-1,y-1,z-1));
 
      }
      key="a";

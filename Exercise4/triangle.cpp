@@ -35,6 +35,19 @@ void Triangle::Print(){
     cout << " [ " << iv[0] << "; " << iv[1] << "; " << iv[2] << "]" << endl;
 }
 
+//getters
+int Triangle::getA(){
+    return iv[0];
+}
+
+int Triangle::getB(){
+    return iv[1];
+}
+
+int Triangle::getC(){
+    return iv[2];
+}
+
 Triangle::Triangle(int vertex[3], int adjtriangle[3],int edges[3])
 {
     for (int i=0; i<3; i++){

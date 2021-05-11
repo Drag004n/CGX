@@ -17,6 +17,7 @@ public:
     Mesh();
     Mesh(vector <Vertex> points, vector <Triangle> tris);
     void Print();
+    void ConnectivityAlgorithm(vector <Vertex> pts, vector <Triangle> tris);
 private:
     vector <Vertex> pts; // point list
     vector <int> val; // valence list (no. of triangles for every point
