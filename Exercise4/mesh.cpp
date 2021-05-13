@@ -31,11 +31,11 @@ void Mesh::Print(){
     }
 }
 
-void ConnectivityAlgorithm(Mesh mesh){
+void Mesh::ConnectivityAlgorithm(Mesh mesh){
     vector <int> val;
 
     //set all vertice valences to 0
-    for (int i=0; i<mesh.pts.size(); i++){
+    for (int i=0; i<pts.size(); i++){
         val.push_back(0);
     }
 

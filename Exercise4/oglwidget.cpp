@@ -59,12 +59,10 @@ void InitLightingAndProjection() // to be executed once before drawing
 
 
     // khai's path
-    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\tetra.obj");
-
-
+    //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\tetra.obj");
 
     // finja's path
-    //ReadData("D:\\Downloads\\Github\\CGX\\Exercise4\\tetra.obj");
+    ReadData("D:\\Downloads\\Github\\CGX\\Exercise4\\tetra.obj");
 
     // reda's path
     //ReadData("");
