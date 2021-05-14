@@ -24,7 +24,9 @@ private:
     vector <Triangle> tris; // triangle list
 
     friend void ReadData(string fname);
-    friend void ConnectivityAlgorithm(Mesh mesh);
+    friend void ConnectivityAlgorithm(Mesh& mesh);
+    friend void findTx (int tIndex, Mesh& mesh, int i);
+    friend void switchTx (int tIndex, int tx, Mesh& mesh,int t);
 };
 
 #endif // MESH_H

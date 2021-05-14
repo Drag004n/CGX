@@ -67,9 +67,9 @@ void InitLightingAndProjection() // to be executed once before drawing
     // reda's path
     //ReadData("");
 
-    //tetraMesh.Print();
-
     ConnectivityAlgorithm(tetraMesh);
+
+    tetraMesh.Print();
 
 //    subdiv1 = Chaikin(points, 1);
 

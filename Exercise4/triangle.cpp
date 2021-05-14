@@ -32,7 +32,8 @@ Triangle::Triangle(int a, int b, int c)
 
 void Triangle::Print(){
 
-    cout << " [ " << iv[0] << "; " << iv[1] << "; " << iv[2] << "]" << endl;
+    cout << " [Points:" << iv[0] << "; " << iv[1] << "; " << iv[2] << "]" << endl;
+    cout << " [neighbours:" << it[0] << "; " << it[1] << "; " << it[2] << "]" << endl;
 }
 
 //getters
