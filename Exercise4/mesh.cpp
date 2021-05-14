@@ -18,15 +18,6 @@ Mesh::Mesh(vector <Vertex> points, vector <Triangle> triangles)
 {
     pts= points;
     tris = triangles;
-
-//    val = [0,0,0,0];
-
-//    for (int i=0; i<points.size(); i++){
-//        val.push_back(0);
-//    }
-    for (int i= 0; i< val.size();i++){
-        cout << " [val:" << i << "; " << val[i] << "]" << endl;
-    }
 }
 
 void findTx (int tx, Mesh& mesh,int i);
@@ -43,13 +34,16 @@ void Mesh::Print(){
     }
 
     for (int i= 0; i< val.size();i++){
-        cout << " [val:" << i << "; " << val[i] << "]" << endl;
+        cout << " [valences: " << i << "; " << val[i] << "]" << endl;
     }
 }
 
 void ConnectivityAlgorithm(Mesh& mesh){
 
-
+    // set valences to 0
+    for (int i = 0; i<mesh.pts.size(); i++){
+        mesh.val[i] = 0;
+    }
 
     //run through triangles and find neighbors and valences
     for (int i=0; i<mesh.tris.size(); i++)
@@ -63,9 +57,10 @@ void ConnectivityAlgorithm(Mesh& mesh){
         findTx(tx, mesh, i);
         }
 
-//        mesh.val[a]++;
-//        mesh.val[b]++;
-//        mesh.val[c]++;
+        // increase valence values for every point of t by 1
+        mesh.val[a]++;
+        mesh.val[b]++;
+        mesh.val[c]++;
 
     }
 }
@@ -177,4 +172,40 @@ void findTx (int tIndex, Mesh& mesh, int i){
        }
 }
 
+void LinSubdiv (Mesh& mesh){
+    // loop to create new subdivision points out of existing points
 
+    /* every point's connection vector to all others needs to be
+     * checked and halved to create new edge vertices
+     */
+
+    // loop not correct yet!! only passes through all points in a line
+    for (int i= 0; i < mesh.pts.size()-1; i++){
+
+        float * a = mesh.pts[i].getCoord();
+        float * b = mesh.pts[i+1].getCoord();
+
+        float x;
+        float y;
+        float z;
+
+        // calculate vector of A to B
+        float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
+
+        // getting coordinates of edge vertex
+        x= a[0] + 0.5*ab[0];
+        y= a[1] + 0.5*ab[1];
+        z= a[2] + 0.5*ab[2];
+
+        Vertex newE = Vertex(x,y,z);
+
+        // push three new edge vertices into ie of corresponding triangle
+        // check if point exists yet, otherwise no push
+
+        //mesh.tris[t].ie.push_back(newE);
+        //testprint
+    }
+
+    // implement new points with faces into mesh to make
+    // 4 triangles out of 1
+}

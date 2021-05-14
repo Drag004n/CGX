@@ -41,31 +41,25 @@ vector <Vertex> Chaikin(vector <Vertex> pointList,int count);
 
 void DrawTriangle();
 
-Vertex ver1(1, 2, 3);
-Vertex ver2(1, 2, 3);
-
-
-
-
 void SetMaterialColor( int side, float r, float g, float b);
 
 // initialize Open GL lighting and projection matrix
 void InitLightingAndProjection() // to be executed once before drawing
 {
-//    Vertex neew =ver1+ver2;
-//    for (int i = 0; i<3 ;i++){
-//        cout << neew.getCoord()[i] << endl ;
-//    }
-
 
     // khai's path
-    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\tetra.obj");
+    //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\tetra.obj");
 
     // finja's path
-    //ReadData("D:\\Downloads\\Github\\CGX\\Exercise4\\tetra.obj");
+    ReadData("D:\\Downloads\\Github\\CGX\\Exercise4\\tetra.obj");
 
     // reda's path
     //ReadData("");
+
+    // initially set valences to 0
+    for (int i=0; i<tetraMesh.pts.size(); i++){
+        tetraMesh.val.push_back(0);
+    }
 
     ConnectivityAlgorithm(tetraMesh);
 
@@ -129,8 +123,8 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
      }
      if (key == "f"){
          tetraMesh.tris.push_back(Triangle(x-1,y-1,z-1));
-
      }
+
      key="a";
   }
   file.close();
@@ -195,14 +189,14 @@ vector <Vertex> Subdivide(vector <Vertex> pointList){
 void DrawTriangle(){
     //looping through the triangles
 
-//    glBegin( GL_LINE_STRIP);
-//        for( int i=0; i<points.size(); i++){
+    glBegin( GL_TRIANGLES);
+        for( int i=0; i<points.size(); i++){
 
-//            float * point = points[i].getCoord();
+            float * point = points[i].getCoord();
 
-//            glVertex3fv(point);
-//        }
-//    glEnd();
+            glVertex3fv(point);
+        }
+    glEnd();
 
 //    SetMaterialColor( 0, 0, 2, 0);  // front color is red
 //    glBegin( GL_LINE_STRIP);
@@ -214,26 +208,6 @@ void DrawTriangle(){
 //        }
 //    glEnd();
 
-//    SetMaterialColor( 0, 0, 0, 0);  // front color is red
-
-//    glBegin( GL_LINE_STRIP);
-//        for( int i=0; i<subdiv2.size(); i++){
-
-//            float * point = subdiv2[i].getCoord();
-
-//            glVertex3fv(point);
-//        }
-//    glEnd();
-
-//    SetMaterialColor( 0, .0, 0, 2);  // front color is red
-//    glBegin( GL_LINE_STRIP);
-//        for( int i=0; i<subdiv3.size(); i++){
-
-//            float * point = subdiv3[i].getCoord();
-
-//            glVertex3fv(point);
-//        }
-//    glEnd();
 }
 
 // define material color properties for front and back side
