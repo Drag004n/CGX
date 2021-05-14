@@ -31,11 +31,11 @@ void Mesh::Print(){
     }
 }
 
-void Mesh::ConnectivityAlgorithm(Mesh mesh){
+void ConnectivityAlgorithm(Mesh mesh){
     vector <int> val;
 
     //set all vertice valences to 0
-    for (int i=0; i<pts.size(); i++){
+    for (int i=0; i<mesh.pts.size(); i++){
         val.push_back(0);
     }
 
@@ -83,7 +83,7 @@ void Mesh::ConnectivityAlgorithm(Mesh mesh){
  */
 void switchTx (int tIndex, int tx, vector<Triangle> tria,int t, int * countPointer){
 
-
+    //gets vertex indices of initial Triangle
     int a = tria[t].getA();
     int b = tria[t].getB();
     int c = tria[t].getC();
@@ -91,24 +91,38 @@ void switchTx (int tIndex, int tx, vector<Triangle> tria,int t, int * countPoint
     switch(tIndex) {
         case 0:
             //loop through all vertices of the current triangle and compares them with the vertices of the initial triangle
-            for (int indV; indV <3; indV++ )
-                int v = tria[tx].it[indV];
-                if (v == b){
-                    // if v= b or v== c count++
-
-                }else
-
+            for (int indV=0 ; indV <3; indV++ )
             {
-            //check if indV is contained in t
-
+                int v = tria[tx].iv[indV];
+                // when point b or c matchess increase the counter
+                if (v == b || v== c){
+                    *countPointer++;
+                    cout<< *countPointer << endl;
+                }
             }
-            // if count reaches 2 it is a neighbor because 2 matching points
-           break;
+            break;
         case 1:
-           // code block
+        //loop through all vertices of the current triangle and compares them with the vertices of the initial triangle
+            for (int indV=0; indV <3; indV++ )
+            {
+                int v = tria[tx].iv[indV];
+                // when point a or c matchess increase the counter
+                if (v == a || v== c){
+                    *countPointer++;
+                    cout<< *countPointer << endl;
+                }
+            }
            break;
         case 2:
-       // code block
+            for (int indV=0; indV <3; indV++ )
+            {
+                int v = tria[tx].iv[indV];
+                // when point a or b matchess increase the counter
+                if (v == a || v== b){
+                    *countPointer++;
+                    cout<< *countPointer << endl;
+                }
+            }
         break;
        }
 
@@ -135,7 +149,7 @@ int findTx (int tIndex, vector <Triangle> tria, int i){
            if (tx != i){
 
                switchTx(tIndex, tx, tria, i,countPointer );
-
+            }
            // if counter reaches, which means two common points the the index will be returned
            if (count ==2){
                 //return index of adcaendt triangle;
@@ -144,6 +158,5 @@ int findTx (int tIndex, vector <Triangle> tria, int i){
        }
            return 0;
 }
-
 
 

@@ -17,13 +17,14 @@ public:
     Mesh();
     Mesh(vector <Vertex> points, vector <Triangle> tris);
     void Print();
-    void ConnectivityAlgorithm(Mesh mesh);
+
 private:
     vector <Vertex> pts; // point list
     vector <int> val; // valence list (no. of triangles for every point
     vector <Triangle> tris; // triangle list
 
     friend void ReadData(string fname);
+    friend void ConnectivityAlgorithm(Mesh mesh);
 };
 
 #endif // MESH_H
