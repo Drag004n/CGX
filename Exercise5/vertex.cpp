@@ -64,4 +64,20 @@ Vertex operator%( Vertex a, Vertex b){
     return c;
 }
 
+// member functions
+void Vertex::operator*=( float a){
+    // a *= b multiplies a with b and gives a the product value
+    coord[0] *= a;
+    coord[1] *= a;
+    coord[2] *= a;
+
+}
+
+void Vertex::operator+=( Vertex a){
+    // a += b adds a to b and gives a the result
+    coord[0] += a.coord[0];
+    coord[1] += a.coord[1];
+    coord[2] += a.coord[2];
+}
+
 

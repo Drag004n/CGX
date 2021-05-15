@@ -6,7 +6,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cmath>
 
+#define PI 3.14159265358979323846
 using namespace std;
 
 Mesh::Mesh()
@@ -38,7 +40,19 @@ void Mesh::Print(){
     }
 }
 
+// calculate beta of n with n being the valence of a point
+float betaN(int n){
+    float alpha_n = 3.0f/8.0f + pow(3.0f/8.0f + 1.0f/4.0f * cos(2*PI/n), 2);
+    float beta_n = 8.0f/5.0f * alpha_n - 3.0f/5.0f;
+    return beta_n;
+        cout << beta_n << endl;
+}
+
 void ConnectivityAlgorithm(Mesh& mesh){
+
+//    int n = 5;
+//    float bt_n = betaN(n);
+//    cout << "betaTest: " << bt_n << endl;
 
     // set valences to 0
     for (int i = 0; i<mesh.pts.size(); i++){
@@ -172,30 +186,74 @@ void findTx (int tIndex, Mesh& mesh, int i){
        }
 }
 
-void LinSubdiv (Mesh& mesh){
-    // loop to create new subdivision points out of existing points
+// calculate and store edge vertices in vector of points and as ie of triangles
+void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3){
 
-    /* every point's connection vector to all others needs to be
-     * checked and halved to create new edge vertices
-     */
+    //get points from indices
+    Vertex v0 = mesh.pts[i0];
+    Vertex v1 = mesh.pts[i1];
+    Vertex v2 = mesh.pts[i2];
+    Vertex v3 = mesh.pts[i3];
 
-    // loop not correct yet!! only passes through all points in a line
-    for (int i= 0; i < mesh.pts.size()-1; i++){
+    float ea = 3/8*(v0.getCoord()[0] + v1.getCoord()[0]) + 1/8*(v2.getCoord()[0] + v3.getCoord()[0]);
+    float eb = 3/8*(v0.getCoord()[1] + v1.getCoord()[1]) + 1/8*(v2.getCoord()[1] + v3.getCoord()[1]);
+    float ec = 3/8*(v0.getCoord()[2] + v1.getCoord()[2]) + 1/8*(v2.getCoord()[2] + v3.getCoord()[2]);
 
-        float * a = mesh.pts[i].getCoord();
-        float * b = mesh.pts[i+1].getCoord();
+    // EDGES WERDEN NOCH FALSCH GEPRINTED
+    cout << "Edges: " << ea << "," << eb << "," << ec << endl;
+
+    Vertex ev(ea, eb, ec);
+
+    //ev.Print();
+    //cout << "Edges: " << ev.getCoord()[0] << "," << ev.getCoord()[1] << "," << ev.getCoord()[2] << endl;
+}
+
+// loop to create new subdivision points out of existing points
+void LoopSubdiv (Mesh& mesh){
+
+    // calculate edge mask out of two adjacent triangle points
+    // loop through triangles and all neighbors to find e, test if e exists
+
+    for (int i= 0; i < mesh.tris.size(); i++){
+
+        // t points 0 to 2 and t0 point 3
+        //indices of points
+        int i0 = mesh.tris[i].iv[0];
+        int i1 = mesh.tris[i].iv[1];
+        int i2 = mesh.tris[i].iv[2];
+        int i3;
+
+        // loop through all 3 neighbors and find fourth point index
+        for (int j=0; j<3; j++){
+
+            int it3 = mesh.tris[i].it[j];
+            for (int i = 0; i<3; i++){
+                int v = mesh.tris[it3].iv[i];
+
+                if (v != i0 && v != i1 && v != i2){
+                    i3 = v;
+                    CalcEdge(mesh, i0, i1, i2, i3);
+
+                    // calc e's
+                    // push into vertex pts
+                    // assign indices of e's to triangle ie
+                }
+            }
+        }
+
+        cout << "Test: " << i0 << "," << i1 << "," << i2 << "," << i3 << endl;
 
         float x;
         float y;
         float z;
 
         // calculate vector of A to B
-        float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
+        //float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
 
         // getting coordinates of edge vertex
-        x= a[0] + 0.5*ab[0];
-        y= a[1] + 0.5*ab[1];
-        z= a[2] + 0.5*ab[2];
+//        x= a[0] + 0.5*ab[0];
+//        y= a[1] + 0.5*ab[1];
+//        z= a[2] + 0.5*ab[2];
 
         Vertex newE = Vertex(x,y,z);
 

@@ -23,6 +23,8 @@ public:
     friend Vertex operator*( float a, Vertex b); // product between scalar and vector
     friend float operator*( Vertex a, Vertex b); // scalar product
     friend Vertex operator%( Vertex a, Vertex b); // cross product
+    void operator*=( float a);
+    void operator+=( Vertex a);
 
 
 private:
