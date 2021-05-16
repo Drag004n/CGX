@@ -187,7 +187,7 @@ void findTx (int tIndex, Mesh& mesh, int i){
 }
 
 // calculate and store edge vertices in vector of points and as ie of triangles
-void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3){
+void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3, int i){
 
     //get points from indices
     Vertex v0 = mesh.pts[i0];
@@ -197,8 +197,8 @@ void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3){
 
     Vertex ev = 3.0f/8.0f*(v0 + v1) + 1.0f/8.0f*(v2 + v3);
 
-
     mesh.pts.push_back(ev);
+    mesh.tris[i].ie[mesh.pts.size()-1];
 }
 
 // loop to create new subdivision points out of existing points
@@ -211,48 +211,48 @@ void LoopSubdiv (Mesh& mesh){
 
         // t points 0 to 2 and t0 point 3
         //indices of points
-        int i0 = mesh.tris[i].iv[0];
-        int i1 = mesh.tris[i].iv[1];
-        int i2 = mesh.tris[i].iv[2];
-        int i3;
+        int i0 = 0;
+        int i1 = 0;
+        int i2 = 0;
+        int i3 = 0;
 
         // loop through all 3 neighbors and find fourth point index
         for (int j=0; j<3; j++){
 
-            int it3 = mesh.tris[i].it[j];
-            for (int i = 0; i<3; i++){
-                int v = mesh.tris[it3].iv[i];
-
-                if (v != i0 && v != i1 && v != i2){
-                    i3 = v;
-                    CalcEdge(mesh, i0, i1, i2, i3);
-
-                    // assign indices of e's to triangle ie
-                }
+            // change order of assignment of points of t for each "rotation" through neighbor triangles
+            if (j==0){
+                i0 = mesh.tris[i].iv[0];
+                i1 = mesh.tris[i].iv[1];
+                i2 = mesh.tris[i].iv[2];
+            } else if (j == 1){
+                i0 = mesh.tris[i].iv[1];
+                i1 = mesh.tris[i].iv[0];
+                i2 = mesh.tris[i].iv[2];
+            } else if (j == 2){
+                i0 = mesh.tris[i].iv[2];
+                i1 = mesh.tris[i].iv[0];
+                i2 = mesh.tris[i].iv[1];
             }
+
+            int it3 = mesh.tris[i].it[j];
+            // if index of t less than index of neighbor t0 calculate edge vertices
+            //if (i<j){
+                for (int k = 0; k<3; k++){
+
+                    int v = mesh.tris[it3].iv[k];
+
+                    if (v != i0 && v != i1 && v != i2){
+                        i3 = v;
+
+                        CalcEdge(mesh, i0, i1, i2, i3, i);
+                    }
+                }
+                // if index of t greater than index of neighbor t0 get ie from t0
+            //} else {
+                //mesh.tris[i].ie[j] = mesh.tris[it3].ie[j];
+            //}
         }
-
-        cout << "Test: " << i0 << "," << i1 << "," << i2 << "," << i3 << endl;
-
-        float x;
-        float y;
-        float z;
-
-        // calculate vector of A to B
-        //float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
-
-        // getting coordinates of edge vertex
-//        x= a[0] + 0.5*ab[0];
-//        y= a[1] + 0.5*ab[1];
-//        z= a[2] + 0.5*ab[2];
-
-        Vertex newE = Vertex(x,y,z);
-
-        // push three new edge vertices into ie of corresponding triangle
-        // check if point exists yet, otherwise no push
-
-        //mesh.tris[t].ie.push_back(newE);
-        //testprint
+        //cout << "Test: " << i0 << "," << i1 << "," << i2 << "," << i3 << endl;
     }
 
     // implement new points with faces into mesh to make
