@@ -184,7 +184,7 @@ void findTx (int tIndex, Mesh& mesh, int i){
 }
 
 // calculate and store edge vertices in vector of points and as ie of triangles
-void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3, int i){
+void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3, int i, int j){
 
     //get points from indices
     Vertex v0 = mesh.pts[i0];
@@ -197,14 +197,13 @@ void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3, int i){
     //ev.Print();
 
     mesh.pts.push_back(ev);
-    mesh.tris[i].ie[0]= mesh.pts.size()-1;
-    cout << mesh.tris[i].ie[mesh.pts.size()] << endl;
+    mesh.tris[i].ie[j]= mesh.pts.size()-1;
 }
 
 // loop to create new subdivision points out of existing points
 void LoopSubdiv (Mesh& mesh){
 
-    // calculate edge mask out of two adjacent triangle points
+    // calculate edge mask out of adjacent triangle points
     // loop through triangles and all neighbors to find e, test if e exists
 
 
@@ -234,18 +233,20 @@ void LoopSubdiv (Mesh& mesh){
 
                         switch (j){
                         case 0:
-                            CalcEdge(mesh, a, b, c, d, i);
+                            CalcEdge(mesh, a, b, c, d, i, j);
                             break;
                         case 1:
-                            CalcEdge(mesh, b, a, c, d, i);
+                            CalcEdge(mesh, b, a, c, d, i, j);
                             break;
                         case 2:
-                           CalcEdge(mesh, c, b, a, d, i);
+                           CalcEdge(mesh, c, b, a, d, i, j);
                             break;
                         }
                        }
                         // assign indices of e's to triangle ie
                 }
+            } else {
+                mesh.tris[i].ie[j]= mesh.tris[tx].ie[j];
             }
         }
 
