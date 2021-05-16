@@ -80,4 +80,15 @@ void Vertex::operator+=( Vertex a){
     coord[2] += a.coord[2];
 }
 
+bool Vertex::operator==( Vertex a){
+    if(coord[0] == a.coord[0]&&
+    coord[1] == a.coord[1]&&
+    coord[2]== a.coord[2]){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 

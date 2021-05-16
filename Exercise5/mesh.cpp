@@ -184,7 +184,7 @@ void findTx (int tIndex, Mesh& mesh, int i){
 }
 
 // calculate and store edge vertices in vector of points and as ie of triangles
-void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3, int i, int j){
+Vertex CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3){
 
     //get points from indices
     Vertex v0 = mesh.pts[i0];
@@ -194,10 +194,7 @@ void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3, int i, int j){
 
     Vertex ev = 1.0f/8.0f*(v0 + 3*v1 + 3*v2 + v3);
 
-    //ev.Print();
-
-    mesh.pts.push_back(ev);
-    mesh.tris[i].ie[j]= mesh.pts.size()-1;
+    return ev;
 }
 
 // loop to create new subdivision points out of existing points
@@ -218,10 +215,10 @@ void LoopSubdiv (Mesh& mesh){
 
         // loop through all 3 neighbors and find fourth point index,
         for (int j=0; j<3; j++){
-            // vertex index of current neighbour
+            // triangle index of current neighbour
             int tx = mesh.tris[i].it[j];
 
-            if(i < tx){
+            Vertex ev;
                 // loop through points of the neighbour
                 for (int k = 0; k<3; k++){
                     //v = index of current point
@@ -233,21 +230,40 @@ void LoopSubdiv (Mesh& mesh){
 
                         switch (j){
                         case 0:
-                            CalcEdge(mesh, a, b, c, d, i, j);
+                            ev= CalcEdge(mesh, a, b, c, d);
                             break;
                         case 1:
-                            CalcEdge(mesh, b, a, c, d, i, j);
+                            ev =CalcEdge(mesh, b, a, c, d);
                             break;
                         case 2:
-                           CalcEdge(mesh, c, b, a, d, i, j);
+                            ev= CalcEdge(mesh, c, b, a, d);
                             break;
                         }
                        }
-                        // assign indices of e's to triangle ie
                 }
-            } else {
-                mesh.tris[i].ie[j]= mesh.tris[tx].ie[j];
-            }
+
+                    if(i < tx){
+                    mesh.pts.push_back(ev);
+                    mesh.tris[i].ie[j]= mesh.pts.size()-1;
+                    } else {
+                     // if the Edge has already been calculated we compare it
+                     // with the existing edges of initial triangle and add that index
+
+                        int eIndex;
+                        Vertex compE;
+
+                        //loop through edges of current triangle
+                        for (int ii = 0; ii<3; ii++){
+                            eIndex = mesh.tris[tx].ie[ii];
+                            compE = mesh.pts[eIndex];
+
+                            if (compE == ev){
+                                mesh.tris[i].ie[j]= eIndex;
+
+                            }
+                        }
+                    }
+                        // assign indices of e's to triangle ie
         }
 
 

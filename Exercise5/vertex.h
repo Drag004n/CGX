@@ -25,6 +25,7 @@ public:
     friend Vertex operator%( Vertex a, Vertex b); // cross product
     void operator*=( float a);
     void operator+=( Vertex a);
+    bool operator==( Vertex a);
 
 
 private:
