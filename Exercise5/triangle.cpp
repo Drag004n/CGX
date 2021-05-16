@@ -34,6 +34,7 @@ void Triangle::Print(){
 
     cout << " [Points:" << iv[0] << "; " << iv[1] << "; " << iv[2] << "]" << endl;
     cout << " [neighbours:" << it[0] << "; " << it[1] << "; " << it[2] << "]" << endl;
+    cout << " [Edges:" << ie[0] << "; " << ie[1] << "; " << ie[2] << "]" << endl;
 }
 
 //getters

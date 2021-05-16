@@ -195,10 +195,18 @@ void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3, int i){
     Vertex v2 = mesh.pts[i2];
     Vertex v3 = mesh.pts[i3];
 
+
     Vertex ev = 3.0f/8.0f*(v0 + v1) + 1.0f/8.0f*(v2 + v3);
 
-    mesh.pts.push_back(ev);
-    mesh.tris[i].ie[mesh.pts.size()-1];
+    //for (int m=0; m<mesh.pts.size(); m++){
+        //Vertex comP = mesh.pts[m];
+
+        // check if new edge vertex is duplicate of existing vertex
+        //if (ev.getCoord() != comP.getCoord()){
+            mesh.pts.push_back(ev);
+            mesh.tris[i].ie[mesh.pts.size()-1];
+        //}
+    //}
 }
 
 // loop to create new subdivision points out of existing points
@@ -236,7 +244,7 @@ void LoopSubdiv (Mesh& mesh){
 
             int it3 = mesh.tris[i].it[j];
             // if index of t less than index of neighbor t0 calculate edge vertices
-            //if (i<j){
+            //if (i<it3){
                 for (int k = 0; k<3; k++){
 
                     int v = mesh.tris[it3].iv[k];
