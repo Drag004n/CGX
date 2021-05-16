@@ -191,14 +191,24 @@ vector <Vertex> Subdivide(vector <Vertex> pointList){
 void DrawTriangle(){
     //looping through the triangles
 
-    glBegin( GL_TRIANGLES);
-        for( int i=0; i<points.size(); i++){
+    glPointSize(5.0f);
 
-            float * point = points[i].getCoord();
+    glBegin( GL_POINTS);
 
+        for (int i=0; i<tetraMesh.pts.size(); i++){
+            float * point = tetraMesh.pts[i].getCoord();
             glVertex3fv(point);
         }
     glEnd();
+
+//    glBegin( GL_TRIANGLES);
+//        for( int i=0; i<points.size(); i++){
+
+//            float * point = points[i].getCoord();
+
+//            glVertex3fv(point);
+//        }
+//    glEnd();
 
 //    SetMaterialColor( 0, 0, 2, 0);  // front color is red
 //    glBegin( GL_LINE_STRIP);

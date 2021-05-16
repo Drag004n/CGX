@@ -30,6 +30,7 @@ private:
     friend void findTx (int tIndex, Mesh& mesh, int i);
     friend void switchTx (int tIndex, int tx, Mesh& mesh,int t);
     friend void InitLightingAndProjection();
+    friend void DrawTriangle();
 
 };
 

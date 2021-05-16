@@ -195,17 +195,10 @@ void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3){
     Vertex v2 = mesh.pts[i2];
     Vertex v3 = mesh.pts[i3];
 
-    float ea = 3/8*(v0.getCoord()[0] + v1.getCoord()[0]) + 1/8*(v2.getCoord()[0] + v3.getCoord()[0]);
-    float eb = 3/8*(v0.getCoord()[1] + v1.getCoord()[1]) + 1/8*(v2.getCoord()[1] + v3.getCoord()[1]);
-    float ec = 3/8*(v0.getCoord()[2] + v1.getCoord()[2]) + 1/8*(v2.getCoord()[2] + v3.getCoord()[2]);
+    Vertex ev = 3.0f/8.0f*(v0 + v1) + 1.0f/8.0f*(v2 + v3);
 
-    // EDGES WERDEN NOCH FALSCH GEPRINTED
-    cout << "Edges: " << ea << "," << eb << "," << ec << endl;
 
-    Vertex ev(ea, eb, ec);
-
-    //ev.Print();
-    //cout << "Edges: " << ev.getCoord()[0] << "," << ev.getCoord()[1] << "," << ev.getCoord()[2] << endl;
+    mesh.pts.push_back(ev);
 }
 
 // loop to create new subdivision points out of existing points
@@ -234,8 +227,6 @@ void LoopSubdiv (Mesh& mesh){
                     i3 = v;
                     CalcEdge(mesh, i0, i1, i2, i3);
 
-                    // calc e's
-                    // push into vertex pts
                     // assign indices of e's to triangle ie
                 }
             }
