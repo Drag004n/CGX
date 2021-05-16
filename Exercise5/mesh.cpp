@@ -197,8 +197,8 @@ void CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3, int i){
     //ev.Print();
 
     mesh.pts.push_back(ev);
-    mesh.tris[i].ie[mesh.pts.size()-1];
-
+    mesh.tris[i].ie[0]= mesh.pts.size()-1;
+    cout << mesh.tris[i].ie[mesh.pts.size()] << endl;
 }
 
 // loop to create new subdivision points out of existing points
@@ -245,7 +245,6 @@ void LoopSubdiv (Mesh& mesh){
                         }
                        }
                         // assign indices of e's to triangle ie
-
                 }
             }
         }

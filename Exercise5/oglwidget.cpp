@@ -65,7 +65,7 @@ void InitLightingAndProjection() // to be executed once before drawing
 
     LoopSubdiv(tetraMesh);
 
-    tetraMesh.Print();
+    //tetraMesh.Print();
 
 //    subdiv1 = Chaikin(points, 1);
 
