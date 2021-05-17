@@ -64,6 +64,11 @@ Vertex operator%( Vertex a, Vertex b){
     return c;
 }
 
+//
+Vertex operator/( Vertex a, float t){
+    return (1/t)*a;
+}
+
 // member functions
 void Vertex::operator*=( float a){
     // a *= b multiplies a with b and gives a the product value

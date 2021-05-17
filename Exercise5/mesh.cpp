@@ -275,6 +275,58 @@ void LoopSubdiv (Mesh& mesh){
             int n = mesh.val[i];
             float beta = betaN(n);
             // *= operator doesnt work well?
-            mesh.pts[i] = beta * mesh.pts[i];
+            mesh.pts[i] *= beta;
         }
+
+    // vertex mask formula
+        for (int i=0; i<mesh.tris.size(); i++){
+
+        // three triangle vertices
+        Vertex a = mesh.pts[mesh.tris[i].iv[0]];
+        Vertex b = mesh.pts[mesh.tris[i].iv[1]];
+        Vertex c = mesh.pts[mesh.tris[i].iv[2]];
+
+        int valA = mesh.val[mesh.tris[i].iv[0]];
+        int valB = mesh.val[mesh.tris[i].iv[1]];
+        int valC = mesh.val[mesh.tris[i].iv[2]];
+
+        Vertex e0 = mesh.pts[mesh.tris[i].ie[0]];
+        Vertex e1 = mesh.pts[mesh.tris[i].ie[1]];
+        Vertex e2 = mesh.pts[mesh.tris[i].ie[2]];
+
+
+        a += ((1 - betaN(valA)) / valA * (e1 + e2) / 2);
+        b += ((1 - betaN(valB)) / valA * (e2 + e0) / 2);
+        c += ((1 - betaN(valC)) / valA * (e0 + e1) / 2);
+
+//        a.Print();
+//        b.Print();
+//        c.Print();
+        }
+
+        // replace triangle t by first of the four new ones, add rest to triangle vector
+//        for (int i=0; i<mesh.tris.size(); i++){
+
+//            // three triangle vertice indices
+//            int a = mesh.tris[i].iv[0];
+//            int b = mesh.tris[i].iv[1];
+//            int c = mesh.tris[i].iv[2];
+
+//            // edge vertice indices of the triangle
+//            int e0 = mesh.tris[i].ie[0];
+//            int e1 = mesh.tris[i].ie[1];
+//            int e2 = mesh.tris[i].ie[2];
+
+//            // replace t by first triangle
+//            mesh.tris[i].iv[0] = e1;
+//            mesh.tris[i].iv[1] = e0;
+//            mesh.tris[i].iv[2] = c;
+
+            // add other three new triangles to triangle vector of mesh
+//            mesh.tris.push_back(Triangle(e1, e2, e0));
+//            mesh.tris.push_back(Triangle(a, e2, e1));
+//            mesh.tris.push_back(Triangle(e2, b, e0));
+
+        //}
+
 }
