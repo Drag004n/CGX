@@ -245,6 +245,10 @@ void LoopSubdiv (Mesh& mesh){
                     if(i < tx){
                     mesh.pts.push_back(ev);
                     mesh.tris[i].ie[j]= mesh.pts.size()-1;
+
+                    //HARDCODE set valence of edge vertices to 6 in order to be able to calculate their beta
+                    mesh.val[mesh.pts.size()-1] = 6;
+
                     } else {
                      // if the Edge has already been calculated we compare it
                      // with the existing edges of initial triangle and add that index
@@ -263,34 +267,14 @@ void LoopSubdiv (Mesh& mesh){
                             }
                         }
                     }
-                        // assign indices of e's to triangle ie
         }
-
-
-
-        //cout << "Test: " << i0 << "," << i1 << "," << i2 << "," << i3 << endl
-
-        float x;
-        float y;
-        float z;
-
-        // calculate vector of A to B
-        //float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
-
-        // getting coordinates of edge vertex
-//        x= a[0] + 0.5*ab[0];
-//        y= a[1] + 0.5*ab[1];
-//        z= a[2] + 0.5*ab[2];
-
-        Vertex newE = Vertex(x,y,z);
-
-        // push three new edge vertices into ie of corresponding triangle
-        // check if point exists yet, otherwise no push
-
-        //mesh.tris[t].ie.push_back(newE);
-        //testprint
     }
 
-    // implement new points with faces into mesh to make
-    // 4 triangles out of 1
+    // relocate existing vertices by multiplying them with beta of valence
+        for (int i=0; i<mesh.pts.size(); i++){
+            int n = mesh.val[i];
+            float beta = betaN(n);
+            // *= operator doesnt work well?
+            mesh.pts[i] = beta * mesh.pts[i];
+        }
 }
