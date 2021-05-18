@@ -225,8 +225,8 @@ void DrawTriangle(){
             // calculate normal vector for flat shading
             float nv[3];
             float * n = nv;
-            float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
-            float ac[]= {c[0]-a[0] ,c[1]-a[1],c[2]-a[2]};
+            float ab[]= {b[0]-a[0],b[1]-a[1],b[2]-a[2]};
+            float ac[]= {c[0]-a[0],c[1]-a[1],c[2]-a[2]};
 
             n[0] = ab[1]*ac[2] - ab[2]*ac[1];
             n[1] = ab[2]*ac[0] - ab[0]*ac[2];

@@ -199,11 +199,8 @@ Vertex CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3){
 
 // relocate vertices using vertex mask
 void VertexMask(Mesh& mesh){
-    // create new vertex of points to push relocated points into
-    vector <Vertex> newPoints;
-
     // loop through all points and multiply by beta of valence
-    for (int i=0; i<mesh.pts.size(); i++){
+    for (int i=0; i<mesh.val.size(); i++){
         int n = mesh.val[i];
         float beta = betaN(n);
         mesh.pts[i] *= beta;
@@ -215,10 +212,7 @@ void VertexMask(Mesh& mesh){
     // relocate points using formula
     for (int i=0; i<mesh.tris.size(); i++){
 
-    // three triangle vertices, their valences and edge vertices
-    Vertex a = mesh.pts[mesh.tris[i].iv[0]];
-    Vertex b = mesh.pts[mesh.tris[i].iv[1]];
-    Vertex c = mesh.pts[mesh.tris[i].iv[2]];
+    // valences and edge vertices
 
     int valA = mesh.val[mesh.tris[i].iv[0]];
     int valB = mesh.val[mesh.tris[i].iv[1]];
@@ -229,25 +223,13 @@ void VertexMask(Mesh& mesh){
     Vertex e2 = mesh.pts[mesh.tris[i].ie[2]];
 
 
-    a += ((1 - betaN(valA)) / valA * (e1 + e2) / 2);
-    b += ((1 - betaN(valB)) / valB * (e2 + e0) / 2);
-    c += ((1 - betaN(valC)) / valC * (e0 + e1) / 2);
+    mesh.pts[mesh.tris[i].iv[0]] += (1 - betaN(valA)) / valA * (e1 + e2) / 2;
+    mesh.pts[mesh.tris[i].iv[1]] += (1 - betaN(valB)) / valB * (e2 + e0) / 2;
+    mesh.pts[mesh.tris[i].iv[2]] += (1 - betaN(valC)) / valC * (e0 + e1) / 2;
 
-    // save new values in new vector of points
-    newPoints.push_back(a);
-    newPoints.push_back(b);
-    newPoints.push_back(c);
+
     }
 
-    for (int i = 0; i<newPoints.size(); i++){
-
-//    cout << newPoints[i].getCoord()[0] << "," << newPoints[i].getCoord()[1] << "," << newPoints[i].getCoord()[2] << endl;
-//    a.Print();
-//    b.Print();
-//    c.Print();
-    }
-
-    mesh.pts = newPoints;
 }
 
 void NewTris(Mesh& mesh){
@@ -273,8 +255,6 @@ void NewTris(Mesh& mesh){
         newTris.push_back(Triangle(a, e2, e1));
         newTris.push_back(Triangle(e2, b, e0));
     }
-
-    cout << newTris.size() << endl;
 
     mesh.tris = newTris;
 }
@@ -327,9 +307,6 @@ void LoopSubdiv (Mesh& mesh){
                     if(i < tx){
                     mesh.pts.push_back(ev);
                     mesh.tris[i].ie[j]= mesh.pts.size()-1;
-
-                    //HARDCODE set valence of edge vertices to 6 in order to be able to calculate their beta
-                    mesh.val.push_back(6);
 
                     } else {
                      // if the Edge has already been calculated we compare it
