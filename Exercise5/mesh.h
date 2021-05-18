@@ -26,6 +26,8 @@ private:
     friend void ReadData(string fname);
     friend void ConnectivityAlgorithm(Mesh& mesh);
     friend Vertex CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3);
+    friend void VertexMask(Mesh& mesh);
+    friend void NewTris(Mesh& mesh);
     friend void LoopSubdiv(Mesh& mesh);
     friend void findTx (int tIndex, Mesh& mesh, int i);
     friend void switchTx (int tIndex, int tx, Mesh& mesh,int t);

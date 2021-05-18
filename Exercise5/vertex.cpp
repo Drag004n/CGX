@@ -97,3 +97,5 @@ bool Vertex::operator==( Vertex a){
 }
 
 
+
+

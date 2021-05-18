@@ -195,6 +195,9 @@ void DrawTriangle(){
 
     glBegin( GL_TRIANGLES);
 
+    // faces red
+    //SetMaterialColor(0, 139, 38, 38);
+
         for( int i=0; i<tetraMesh.tris.size(); i++){
             float * a = tetraMesh.pts[tetraMesh.tris[i].getA()].getCoord();
             float * b = tetraMesh.pts[tetraMesh.tris[i].getB()].getCoord();
@@ -209,16 +212,43 @@ void DrawTriangle(){
         }
     glEnd();
 
-//    glBegin( GL_TRIANGLES);
-//        for( int i=0; i<points.size(); i++){
+    glBegin( GL_LINE_LOOP);
 
-//            float * point = points[i].getCoord();
+    // outline yellow
+    SetMaterialColor(0, 255, 215, 0);
+
+        for( int i=0; i<tetraMesh.tris.size(); i++){
+            float * a = tetraMesh.pts[tetraMesh.tris[i].getA()].getCoord();
+            float * b = tetraMesh.pts[tetraMesh.tris[i].getB()].getCoord();
+            float * c = tetraMesh.pts[tetraMesh.tris[i].getC()].getCoord();
+
+            // calculate normal vector for flat shading
+            float nv[3];
+            float * n = nv;
+            float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
+            float ac[]= {c[0]-a[0] ,c[1]-a[1],c[2]-a[2]};
+
+            n[0] = ab[1]*ac[2] - ab[2]*ac[1];
+            n[1] = ab[2]*ac[0] - ab[0]*ac[2];
+            n[2] = ab[0]*ac[1] - ab[1]*ac[0];
+
+            glNormal3fv(n);
+            glVertex3fv(a);
+            glVertex3fv(b);
+            glVertex3fv(c);
+
+        }
+    glEnd();
+
+//    glBegin(GL_POINTS);
+
+//        for(int i=0; i<tetraMesh.pts.size(); i++){
+//            float * point = tetraMesh.pts[i].getCoord();
 
 //            glVertex3fv(point);
 //        }
 //    glEnd();
 
-//    SetMaterialColor( 0, 0, 2, 0);  // front color is red
 //    glBegin( GL_LINE_STRIP);
 //        for( int i=0; i<subdiv1.size(); i++){
 
@@ -295,7 +325,7 @@ void OGLWidget::paintGL() // draw everything, to be called repeatedly
     glMatrixMode( GL_MODELVIEW);
     glLoadIdentity();				// Reset The Current Modelview Matrix
     glTranslated( 0 ,-3 ,-10.0);     // Move 10 units backwards in z, since camera is at origin
-    glScaled( 1.0, 1.0, 1.0);       // scale objects
+    glScaled( 2.0, 2.0, 2.0);       // scale objects
     glRotated( alpha, 0, 3, 1);     // continuous rotation
     alpha += 5;
 

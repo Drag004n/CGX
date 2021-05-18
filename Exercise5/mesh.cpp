@@ -197,6 +197,88 @@ Vertex CalcEdge(Mesh& mesh, int i0, int i1, int i2, int i3){
     return ev;
 }
 
+// relocate vertices using vertex mask
+void VertexMask(Mesh& mesh){
+    // create new vertex of points to push relocated points into
+    vector <Vertex> newPoints;
+
+    // loop through all points and multiply by beta of valence
+    for (int i=0; i<mesh.pts.size(); i++){
+        int n = mesh.val[i];
+        float beta = betaN(n);
+        mesh.pts[i] *= beta;
+
+        // if we use new vector edge vertices need to be added aswell!!
+
+    }
+
+    // relocate points using formula
+    for (int i=0; i<mesh.tris.size(); i++){
+
+    // three triangle vertices, their valences and edge vertices
+    Vertex a = mesh.pts[mesh.tris[i].iv[0]];
+    Vertex b = mesh.pts[mesh.tris[i].iv[1]];
+    Vertex c = mesh.pts[mesh.tris[i].iv[2]];
+
+    int valA = mesh.val[mesh.tris[i].iv[0]];
+    int valB = mesh.val[mesh.tris[i].iv[1]];
+    int valC = mesh.val[mesh.tris[i].iv[2]];
+
+    Vertex e0 = mesh.pts[mesh.tris[i].ie[0]];
+    Vertex e1 = mesh.pts[mesh.tris[i].ie[1]];
+    Vertex e2 = mesh.pts[mesh.tris[i].ie[2]];
+
+
+    a += ((1 - betaN(valA)) / valA * (e1 + e2) / 2);
+    b += ((1 - betaN(valB)) / valB * (e2 + e0) / 2);
+    c += ((1 - betaN(valC)) / valC * (e0 + e1) / 2);
+
+    // save new values in new vector of points
+    newPoints.push_back(a);
+    newPoints.push_back(b);
+    newPoints.push_back(c);
+    }
+
+    for (int i = 0; i<newPoints.size(); i++){
+
+//    cout << newPoints[i].getCoord()[0] << "," << newPoints[i].getCoord()[1] << "," << newPoints[i].getCoord()[2] << endl;
+//    a.Print();
+//    b.Print();
+//    c.Print();
+    }
+
+    mesh.pts = newPoints;
+}
+
+void NewTris(Mesh& mesh){
+    // create new triangle vector to replace with existing one
+    vector <Triangle> newTris;
+
+    // replace triangle t by first of the four new ones, add rest to triangle vector
+    for (int i=0; i<mesh.tris.size(); i++){
+
+        // three triangle vertice indices
+        int a = mesh.tris[i].iv[0];
+        int b = mesh.tris[i].iv[1];
+        int c = mesh.tris[i].iv[2];
+
+        // edge vertice indices of the triangle
+        int e0 = mesh.tris[i].ie[0];
+        int e1 = mesh.tris[i].ie[1];
+        int e2 = mesh.tris[i].ie[2];
+
+        // build new triangles and push into new triangle vector (four triangles for each of the old triangles)
+        newTris.push_back(Triangle(e1, e0, c));
+        newTris.push_back(Triangle(e1, e2, e0));
+        newTris.push_back(Triangle(a, e2, e1));
+        newTris.push_back(Triangle(e2, b, e0));
+    }
+
+    cout << newTris.size() << endl;
+
+    mesh.tris = newTris;
+}
+
 // loop to create new subdivision points out of existing points
 void LoopSubdiv (Mesh& mesh){
 
@@ -247,7 +329,7 @@ void LoopSubdiv (Mesh& mesh){
                     mesh.tris[i].ie[j]= mesh.pts.size()-1;
 
                     //HARDCODE set valence of edge vertices to 6 in order to be able to calculate their beta
-                    mesh.val[mesh.pts.size()-1] = 6;
+                    mesh.val.push_back(6);
 
                     } else {
                      // if the Edge has already been calculated we compare it
@@ -271,62 +353,9 @@ void LoopSubdiv (Mesh& mesh){
     }
 
     // relocate existing vertices by multiplying them with beta of valence
-        for (int i=0; i<mesh.pts.size(); i++){
-            int n = mesh.val[i];
-            float beta = betaN(n);
-            // *= operator doesnt work well?
-            mesh.pts[i] *= beta;
-        }
-
     // vertex mask formula
-        for (int i=0; i<mesh.tris.size(); i++){
+    VertexMask(mesh);
 
-        // three triangle vertices
-        Vertex a = mesh.pts[mesh.tris[i].iv[0]];
-        Vertex b = mesh.pts[mesh.tris[i].iv[1]];
-        Vertex c = mesh.pts[mesh.tris[i].iv[2]];
-
-        int valA = mesh.val[mesh.tris[i].iv[0]];
-        int valB = mesh.val[mesh.tris[i].iv[1]];
-        int valC = mesh.val[mesh.tris[i].iv[2]];
-
-        Vertex e0 = mesh.pts[mesh.tris[i].ie[0]];
-        Vertex e1 = mesh.pts[mesh.tris[i].ie[1]];
-        Vertex e2 = mesh.pts[mesh.tris[i].ie[2]];
-
-
-        a += ((1 - betaN(valA)) / valA * (e1 + e2) / 2);
-        b += ((1 - betaN(valB)) / valA * (e2 + e0) / 2);
-        c += ((1 - betaN(valC)) / valA * (e0 + e1) / 2);
-
-//        a.Print();
-//        b.Print();
-//        c.Print();
-        }
-
-        // replace triangle t by first of the four new ones, add rest to triangle vector
-//        for (int i=0; i<mesh.tris.size(); i++){
-
-//            // three triangle vertice indices
-//            int a = mesh.tris[i].iv[0];
-//            int b = mesh.tris[i].iv[1];
-//            int c = mesh.tris[i].iv[2];
-
-//            // edge vertice indices of the triangle
-//            int e0 = mesh.tris[i].ie[0];
-//            int e1 = mesh.tris[i].ie[1];
-//            int e2 = mesh.tris[i].ie[2];
-
-//            // replace t by first triangle
-//            mesh.tris[i].iv[0] = e1;
-//            mesh.tris[i].iv[1] = e0;
-//            mesh.tris[i].iv[2] = c;
-
-            // add other three new triangles to triangle vector of mesh
-//            mesh.tris.push_back(Triangle(e1, e2, e0));
-//            mesh.tris.push_back(Triangle(a, e2, e1));
-//            mesh.tris.push_back(Triangle(e2, b, e0));
-
-        //}
-
+    // replace triangle by four newly calculated ones
+    NewTris(mesh);
 }
