@@ -249,8 +249,9 @@ void NewTris(Mesh& mesh){
         int e2 = mesh.tris[i].ie[2];
 
         // build new triangles and push into new triangle vector (four triangles for each of the old triangles)
-        /* NOTE! New triangles will have no connectivity through neighbors or edges, thus showing incorrect values in the print.
-         * They are merely used for plotting and will be reconnected with each new following subdivision.
+        /* NOTE! New triangles will have no edges, thus showing incorrect values in the print.
+         * Their neighbors are found by running the connectivity algorithm a second time,
+         * which is used to find their edge vertices with each new following subdivision.
          */
         newTris.push_back(Triangle(e1, e0, c));
         newTris.push_back(Triangle(e1, e2, e0));
