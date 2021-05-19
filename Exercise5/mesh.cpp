@@ -57,6 +57,10 @@ void ConnectivityAlgorithm(Mesh& mesh){
     // set valences to 0
     for (int i = 0; i<mesh.pts.size(); i++){
         mesh.val[i] = 0;
+
+        if (i >= mesh.val.size()){
+            mesh.val.push_back(0);
+        }
     }
 
     //run through triangles and find neighbors and valences
@@ -76,7 +80,6 @@ void ConnectivityAlgorithm(Mesh& mesh){
         mesh.val[a]++;
         mesh.val[b]++;
         mesh.val[c]++;
-
     }
 }
 
@@ -204,16 +207,12 @@ void VertexMask(Mesh& mesh){
         int n = mesh.val[i];
         float beta = betaN(n);
         mesh.pts[i] *= beta;
-
-        // if we use new vector edge vertices need to be added aswell!!
-
     }
 
     // relocate points using formula
     for (int i=0; i<mesh.tris.size(); i++){
 
     // valences and edge vertices
-
     int valA = mesh.val[mesh.tris[i].iv[0]];
     int valB = mesh.val[mesh.tris[i].iv[1]];
     int valC = mesh.val[mesh.tris[i].iv[2]];
@@ -250,12 +249,15 @@ void NewTris(Mesh& mesh){
         int e2 = mesh.tris[i].ie[2];
 
         // build new triangles and push into new triangle vector (four triangles for each of the old triangles)
+        /* NOTE! New triangles will have no connectivity through neighbors or edges, thus showing incorrect values in the print.
+         * They are merely used for plotting and will be reconnected with each new following subdivision.
+         */
         newTris.push_back(Triangle(e1, e0, c));
         newTris.push_back(Triangle(e1, e2, e0));
         newTris.push_back(Triangle(a, e2, e1));
         newTris.push_back(Triangle(e2, b, e0));
     }
-
+    // replace new triangle vector with old one in mesh
     mesh.tris = newTris;
 }
 

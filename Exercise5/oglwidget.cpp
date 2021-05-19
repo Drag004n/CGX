@@ -37,7 +37,7 @@ void ReadData( string fname);
 
 vector <Vertex> Subdivide(vector <Vertex> pointList);
 
-vector <Vertex> Chaikin(vector <Vertex> pointList,int count);
+void SubdivLevel(Mesh& mesh,int count);
 
 void DrawTriangle();
 
@@ -61,17 +61,23 @@ void InitLightingAndProjection() // to be executed once before drawing
         tetraMesh.val.push_back(0);
     }
 
+    // create first connectivity of the mesh
     ConnectivityAlgorithm(tetraMesh);
+
+    LoopSubdiv(tetraMesh);
+
+    ConnectivityAlgorithm(tetraMesh);
+
+    tetraMesh.Print();
 
     LoopSubdiv(tetraMesh);
 
     tetraMesh.Print();
 
-//    subdiv1 = Chaikin(points, 1);
 
-//    subdiv2 = Chaikin(points, 2);
 
-//    subdiv3 = Chaikin(points, 3);
+    // subdivision using the loop subdivision two times
+    //SubdivLevel(tetraMesh, 2);
 
 
     // light positions and colors
@@ -133,17 +139,16 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
 
 }
 
-// Chaikin's algorithm - loop amount adjustable
-vector <Vertex> Chaikin(vector <Vertex> pointList,int count){
+// subdivision loop amount adjustable
+void SubdivLevel(Mesh& mesh,int count){
 
-    vector <Vertex> newPoints = pointList;
-
-    //recursive fucntion call to do different levels of the algorhythm
+    //recursive function call to do different levels of the algorhythm
     for (int i= 0; i < count; i++){
-        newPoints = Subdivide(newPoints);
-    }
 
-    return newPoints;
+        LoopSubdiv(mesh);
+        ConnectivityAlgorithm(tetraMesh);
+        mesh.Print();
+    }
 }
 
 // function for subdivision used in Chaikin's algorithm
