@@ -61,13 +61,8 @@ void InitLightingAndProjection() // to be executed once before drawing
         tetraMesh.val.push_back(0);
     }
 
-    // create first connectivity of the mesh
-    ConnectivityAlgorithm(tetraMesh);
-    LoopSubdiv(tetraMesh);
-    tetraMesh.Print();
-
     // subdivision using the loop subdivision two times
-    //SubdivLevel(tetraMesh, 1);
+    SubdivLevel(tetraMesh, 2);
 
 
     // light positions and colors
@@ -135,8 +130,8 @@ void SubdivLevel(Mesh& mesh,int count){
     //recursive function call to do different levels of the algorhythm
     for (int i= 0; i < count; i++){
 
-        LoopSubdiv(mesh);
         ConnectivityAlgorithm(mesh);
+        LoopSubdiv(mesh);
         mesh.Print();
     }
 }

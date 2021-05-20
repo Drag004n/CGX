@@ -86,9 +86,16 @@ void Vertex::operator+=( Vertex a){
 }
 
 bool Vertex::operator==( Vertex a){
-    if(coord[0] == a.coord[0]&&
-    coord[1] == a.coord[1]&&
-    coord[2]== a.coord[2]){
+    float roundCoord[3];
+    float roundACoord[3];
+        for (int i = 0; i< 3;i++){
+            roundCoord[i] = roundf(coord[i] * 100) / 100;
+            roundACoord[i] = roundf(a.coord[i] * 100) / 100;
+        }
+
+    if(roundCoord[0] == roundACoord[0]&&
+    roundCoord[1] == roundACoord[1]&&
+    roundCoord[2]== roundACoord[2]){
         return true;
     }
     else{
