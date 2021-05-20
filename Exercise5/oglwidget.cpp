@@ -51,7 +51,7 @@ void InitLightingAndProjection() // to be executed once before drawing
     //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\tetra.obj");
 
     // finja's path
-    ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\tetra.obj");
+    ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\mesh1.obj");
 
     // reda's path
     //ReadData("");
@@ -63,9 +63,11 @@ void InitLightingAndProjection() // to be executed once before drawing
 
     // create first connectivity of the mesh
     ConnectivityAlgorithm(tetraMesh);
+    LoopSubdiv(tetraMesh);
+    tetraMesh.Print();
 
     // subdivision using the loop subdivision two times
-    SubdivLevel(tetraMesh, 2);
+    //SubdivLevel(tetraMesh, 1);
 
 
     // light positions and colors
@@ -185,30 +187,12 @@ void DrawTriangle(){
     //looping through the triangles
 
     glPointSize(3.0f);
+    glLineWidth(1.5f);
 
     glBegin( GL_TRIANGLES);
 
     // faces red
     //SetMaterialColor(0, 139, 38, 38);
-
-        for( int i=0; i<tetraMesh.tris.size(); i++){
-            float * a = tetraMesh.pts[tetraMesh.tris[i].getA()].getCoord();
-            float * b = tetraMesh.pts[tetraMesh.tris[i].getB()].getCoord();
-            float * c = tetraMesh.pts[tetraMesh.tris[i].getC()].getCoord();
-
-
-            //glNormal3fv(n);
-            glVertex3fv(a);
-            glVertex3fv(b);
-            glVertex3fv(c);
-
-        }
-    glEnd();
-
-    glBegin( GL_LINE_LOOP);
-
-    // outline yellow
-    SetMaterialColor(0, 255, 215, 0);
 
         for( int i=0; i<tetraMesh.tris.size(); i++){
             float * a = tetraMesh.pts[tetraMesh.tris[i].getA()].getCoord();
@@ -226,6 +210,24 @@ void DrawTriangle(){
             n[2] = ab[0]*ac[1] - ab[1]*ac[0];
 
             glNormal3fv(n);
+            glVertex3fv(a);
+            glVertex3fv(b);
+            glVertex3fv(c);
+
+        }
+    glEnd();
+
+    glBegin( GL_LINE_LOOP);
+
+    // outline yellow
+    SetMaterialColor(0, 255, 215, 0);
+
+        for( int i=0; i<tetraMesh.tris.size(); i++){
+            float * a = tetraMesh.pts[tetraMesh.tris[i].getA()].getCoord();
+            float * b = tetraMesh.pts[tetraMesh.tris[i].getB()].getCoord();
+            float * c = tetraMesh.pts[tetraMesh.tris[i].getC()].getCoord();
+
+            //glNormal3fv(n);
             glVertex3fv(a);
             glVertex3fv(b);
             glVertex3fv(c);

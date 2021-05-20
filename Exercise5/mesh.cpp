@@ -81,6 +81,9 @@ void ConnectivityAlgorithm(Mesh& mesh){
         mesh.val[b]++;
         mesh.val[c]++;
     }
+
+//    LoopSubdiv(mesh);
+//    mesh.Print();
 }
 
 /* find adjacent Triangle with common points and pushes
