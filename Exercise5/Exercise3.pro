@@ -32,6 +32,7 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 DISTFILES += \
+    Primo.obj \
     cube.obj \
     mesh1.obj \
     tetra.obj
