@@ -62,7 +62,7 @@ void InitLightingAndProjection() // to be executed once before drawing
     }
 
     // subdivision using the loop subdivision two times
-    //SubdivLevel(tetraMesh, 2);
+    SubdivLevel(tetraMesh, 2);
 
 
     // light positions and colors
