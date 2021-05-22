@@ -51,7 +51,7 @@ void InitLightingAndProjection() // to be executed once before drawing
     //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\tetra.obj");
 
     // finja's path
-    ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\mesh1.obj");
+    ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\primo.obj");
 
     // reda's path
     //ReadData("");
@@ -62,7 +62,7 @@ void InitLightingAndProjection() // to be executed once before drawing
     }
 
     // subdivision using the loop subdivision two times
-    SubdivLevel(tetraMesh, 2);
+    //SubdivLevel(tetraMesh, 2);
 
 
     // light positions and colors
@@ -110,7 +110,7 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  float x, y, z;
  while( file){
      file >> key >> x >> y >> z;
- //    cout << key <<", "<< x <<", "<< y <<", "<< z << endl;
+     cout << key <<", "<< x <<", "<< y <<", "<< z << endl;
      if (key == "v"){
          tetraMesh.pts.push_back(Vertex(x,y,z));
      }
@@ -123,6 +123,7 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
   file.close();
 
 }
+
 
 // subdivision loop amount adjustable
 void SubdivLevel(Mesh& mesh,int count){
