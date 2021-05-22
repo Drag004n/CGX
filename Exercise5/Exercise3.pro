@@ -34,5 +34,6 @@ FORMS    += mainwindow.ui
 DISTFILES += \
     cube.obj \
     mesh1.obj \
+    mesh1.obj \
     primo.obj \
     tetra.obj
