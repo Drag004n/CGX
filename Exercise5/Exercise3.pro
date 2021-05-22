@@ -36,4 +36,5 @@ DISTFILES += \
     mesh1.obj \
     mesh1.obj \
     primo.obj \
+    ps4.obj \
     tetra.obj

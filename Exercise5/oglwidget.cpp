@@ -48,10 +48,10 @@ void InitLightingAndProjection() // to be executed once before drawing
 {
 
     // khai's path
-    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise5\\primo.obj");
+    //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise5\\primo.obj");
 
     // finja's path
-    //ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\mesh1.obj");
+    ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\ps4.obj");
 
     // reda's path
     //ReadData("");
@@ -62,7 +62,7 @@ void InitLightingAndProjection() // to be executed once before drawing
     }
 
     // subdivision using the loop subdivision two times
-    //SubdivLevel(tetraMesh, 2);
+    SubdivLevel(tetraMesh, 2);
 
 
     // light positions and colors
@@ -212,7 +212,7 @@ void DrawTriangle(){
         }
     glEnd();
 
-    glBegin( GL_LINE_LOOP);
+    glBegin( GL_LINE_STRIP);
 
     // outline yellow
     SetMaterialColor(0, 255, 215, 0);
@@ -315,7 +315,7 @@ void OGLWidget::paintGL() // draw everything, to be called repeatedly
     glMatrixMode( GL_MODELVIEW);
     glLoadIdentity();				// Reset The Current Modelview Matrix
     glTranslated( 0 ,0 ,-10.0);     // Move 10 units backwards in z, since camera is at origin
-    glScaled( 0.3, 0.3, 0.3);       // scale objects
+    glScaled( 0.5, 0.5, 0.5);       // scale objects
     glRotated( alpha, 0, 3, 1);     // continuous rotation
     alpha += 5;
 
