@@ -109,8 +109,10 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  string key;
  float x, y, z;
  while( file >> key){
-     file >> x >> y >> z;
-     cout << key <<", "<< x <<", "<< y <<", "<< z << endl;
+     if (key == "v"||key == "f"){
+         file >> x >> y >> z;
+         cout << key <<", "<< x <<", "<< y <<", "<< z << endl;
+     }
      if (key == "v"){
          tetraMesh.pts.push_back(Vertex(x,y,z));
      }
@@ -312,8 +314,8 @@ void OGLWidget::paintGL() // draw everything, to be called repeatedly
     // draw the scene
     glMatrixMode( GL_MODELVIEW);
     glLoadIdentity();				// Reset The Current Modelview Matrix
-    glTranslated( 0 ,-3 ,-10.0);     // Move 10 units backwards in z, since camera is at origin
-    glScaled( 2.0, 2.0, 2.0);       // scale objects
+    glTranslated( 0 ,0 ,-10.0);     // Move 10 units backwards in z, since camera is at origin
+    glScaled( 0.3, 0.3, 0.3);       // scale objects
     glRotated( alpha, 0, 3, 1);     // continuous rotation
     alpha += 5;
 
