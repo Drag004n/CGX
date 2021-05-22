@@ -51,7 +51,7 @@ void InitLightingAndProjection() // to be executed once before drawing
     //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise3\\tetra.obj");
 
     // finja's path
-    ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\primo.obj");
+    ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\mesh1.obj");
 
     // reda's path
     //ReadData("");
