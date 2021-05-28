@@ -48,10 +48,10 @@ void InitLightingAndProjection() // to be executed once before drawing
 {
 
     // khai's path
-    //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise5\\primo.obj");
+    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise5\\ps4.obj");
 
     // finja's path
-    ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\ps4.obj");
+    //ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\ps4.obj");
 
     // reda's path
     //ReadData("");
@@ -212,32 +212,32 @@ void DrawTriangle(){
         }
     glEnd();
 
-    glBegin( GL_LINE_STRIP);
+//    glBegin( GL_LINE_STRIP);
 
-    // outline yellow
-    SetMaterialColor(0, 255, 215, 0);
+//    // outline yellow
+//    SetMaterialColor(0, 255, 215, 0);
 
-        for( int i=0; i<tetraMesh.tris.size(); i++){
-            float * a = tetraMesh.pts[tetraMesh.tris[i].getA()].getCoord();
-            float * b = tetraMesh.pts[tetraMesh.tris[i].getB()].getCoord();
-            float * c = tetraMesh.pts[tetraMesh.tris[i].getC()].getCoord();
+//        for( int i=0; i<tetraMesh.tris.size(); i++){
+//            float * a = tetraMesh.pts[tetraMesh.tris[i].getA()].getCoord();
+//            float * b = tetraMesh.pts[tetraMesh.tris[i].getB()].getCoord();
+//            float * c = tetraMesh.pts[tetraMesh.tris[i].getC()].getCoord();
 
-            //glNormal3fv(n);
-            glVertex3fv(a);
-            glVertex3fv(b);
-            glVertex3fv(c);
+//            //glNormal3fv(n);
+//            glVertex3fv(a);
+//            glVertex3fv(b);
+//            glVertex3fv(c);
 
-        }
-    glEnd();
-
-//    glBegin(GL_POINTS);
-
-//        for(int i=0; i<tetraMesh.pts.size(); i++){
-//            float * point = tetraMesh.pts[i].getCoord();
-
-//            glVertex3fv(point);
 //        }
 //    glEnd();
+
+    glBegin(GL_POINTS);
+
+        for(int i=0; i<tetraMesh.pts.size(); i++){
+            float * point = tetraMesh.pts[i].getCoord();
+
+            glVertex3fv(point);
+        }
+    glEnd();
 
 //    glBegin( GL_LINE_STRIP);
 //        for( int i=0; i<subdiv1.size(); i++){
