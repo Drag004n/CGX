@@ -21,12 +21,6 @@ static double alpha = 45.0; // rotation angle
 
 // global variables and functions
 
-//vector <Vertex> subdiv1;
-
-//vector <Vertex> subdiv2;
-
-//vector <Vertex> subdiv3;
-
 vector <Vertex> points;
 
 vector <Triangle> tris;
@@ -47,11 +41,13 @@ void SetMaterialColor( int side, float r, float g, float b);
 void InitLightingAndProjection() // to be executed once before drawing
 {
 
+    // NOTE: The ReadData function needs to be adjusted for every local user according to the path the called file is saved in!
+
     // khai's path
-    ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise5\\ps4.obj");
+    //ReadData("C:\\Users\\k-ht\\Documents\\Studium\\Computergrafik\\CGX\\Exercise5\\ps4.obj");
 
     // finja's path
-    //ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\ps4.obj");
+    ReadData("D:\\Downloads\\Github\\CGX\\Exercise5\\ps4.obj");
 
     // reda's path
     //ReadData("");
@@ -62,6 +58,10 @@ void InitLightingAndProjection() // to be executed once before drawing
     }
 
     // subdivision using the loop subdivision two times
+    /* NOTE: Comment out the SubdivLevel-Method to get the control mesh,
+     * write a 1 for the second call parameter to get the first subdivision level,
+     * 2 for the second level
+     */
     SubdivLevel(tetraMesh, 2);
 
 
@@ -109,10 +109,12 @@ void ReadData( string fname){ //fname = "F:\\CG21\\MeshOpenGL\\mesh1.obj";
  string key;
  float x, y, z;
  while( file >> key){
+     // check if the key implies a following vertex or face, else ignore the line
      if (key == "v"||key == "f"){
          file >> x >> y >> z;
          cout << key <<", "<< x <<", "<< y <<", "<< z << endl;
      }
+     // when the key is v or f, push in the following values into the vertex or triangle vector
      if (key == "v"){
          tetraMesh.pts.push_back(Vertex(x,y,z));
      }
@@ -136,48 +138,7 @@ void SubdivLevel(Mesh& mesh,int count){
     }
 }
 
-// function for subdivision used in Chaikin's algorithm
-vector <Vertex> Subdivide(vector <Vertex> pointList){
-
-
-    vector <Vertex> newPoints;
-
-    // loop to create the new subdivision points out of existing points
-    for (int i= 0; i < pointList.size()-1; i++){
-
-        float * a = pointList[i].getCoord();
-        float * b = pointList[i+1].getCoord();
-
-        float x;
-        float y;
-        float z;
-
-        // calculate vector of A to B
-        float ab[]= {b[0]-a[0] ,b[1]-a[1],b[2]-a[2]};
-
-        // getting coordinates for first subdivision point
-        x= a[0] + 0.25*ab[0];
-        y= a[1] + 0.25*ab[1];
-        z= a[2] + 0.25*ab[2];
-
-        Vertex newA = Vertex(x,y,z);
-
-        // ... second subdivision point
-        x= a[0] + 0.75*ab[0];
-        y= a[1] + 0.75*ab[1];
-        z= a[2] + 0.75*ab[2];
-
-        Vertex newB = Vertex(x,y,z);
-
-        // push new vertices into vector
-        newPoints.push_back(newA);
-        newPoints.push_back(newB);
-
-    }
-
-    return newPoints;
-}
-
+// Method using OpenGl to draw the faces and outlines of the read in (and potentially subdivided) trianglemesh-shape, flat shaded using normal vectors
 void DrawTriangle(){
     //looping through the triangles
 
@@ -204,6 +165,7 @@ void DrawTriangle(){
             n[1] = ab[2]*ac[0] - ab[0]*ac[2];
             n[2] = ab[0]*ac[1] - ab[1]*ac[0];
 
+            // draw
             glNormal3fv(n);
             glVertex3fv(a);
             glVertex3fv(b);
@@ -212,32 +174,33 @@ void DrawTriangle(){
         }
     glEnd();
 
-//    glBegin( GL_LINE_STRIP);
+    glBegin( GL_LINE_STRIP);
 
-//    // outline yellow
-//    SetMaterialColor(0, 255, 215, 0);
+    // outline yellow
+    SetMaterialColor(0, 255, 215, 0);
 
-//        for( int i=0; i<tetraMesh.tris.size(); i++){
-//            float * a = tetraMesh.pts[tetraMesh.tris[i].getA()].getCoord();
-//            float * b = tetraMesh.pts[tetraMesh.tris[i].getB()].getCoord();
-//            float * c = tetraMesh.pts[tetraMesh.tris[i].getC()].getCoord();
+        for( int i=0; i<tetraMesh.tris.size(); i++){
+            float * a = tetraMesh.pts[tetraMesh.tris[i].getA()].getCoord();
+            float * b = tetraMesh.pts[tetraMesh.tris[i].getB()].getCoord();
+            float * c = tetraMesh.pts[tetraMesh.tris[i].getC()].getCoord();
 
-//            //glNormal3fv(n);
-//            glVertex3fv(a);
-//            glVertex3fv(b);
-//            glVertex3fv(c);
+            // draw
+            //glNormal3fv(n);
+            glVertex3fv(a);
+            glVertex3fv(b);
+            glVertex3fv(c);
 
-//        }
-//    glEnd();
-
-    glBegin(GL_POINTS);
-
-        for(int i=0; i<tetraMesh.pts.size(); i++){
-            float * point = tetraMesh.pts[i].getCoord();
-
-            glVertex3fv(point);
         }
     glEnd();
+
+//    glBegin(GL_POINTS);
+
+//        for(int i=0; i<tetraMesh.pts.size(); i++){
+//            float * point = tetraMesh.pts[i].getCoord();
+
+//            glVertex3fv(point);
+//        }
+//    glEnd();
 
 //    glBegin( GL_LINE_STRIP);
 //        for( int i=0; i<subdiv1.size(); i++){
@@ -323,9 +286,8 @@ void OGLWidget::paintGL() // draw everything, to be called repeatedly
     SetMaterialColor( 1, 1.0, .2, .2);  // front color is red
     SetMaterialColor( 2, 0.2, 0.2, 1.0); // back color is blue
 
-    // draw a cylinder with default resolution
+    // draw a shape with default resolution
     DrawTriangle();
-    //Subdivide();
 
     // make it appear (before this, it's hidden in the rear buffer)
     glFlush();

@@ -17,7 +17,7 @@ float * Vertex::getCoord(){
     return coord;
 }
 
-Vertex::Vertex( float a, float b, float c){ // constructor with initialization
+Vertex::Vertex( float a, float b, float c){ // constructor creating a vertex object containing three float value coordinates x y z
     coord[0] = a;
     coord[1] = b;
     coord[2] = c;
@@ -28,14 +28,20 @@ void Vertex::Print(){
     cout << " [ " << coord[0] << "; " << coord[1] << "; " << coord[2] << "]" << endl;
 }
 
+// overridden operators for use on vertex objects
+// plus operator
 Vertex operator+(Vertex a, Vertex b){
     Vertex firstVector = Vertex( a.coord[0] + b.coord[0], a.coord[1] + b.coord[1], a.coord[2] + b.coord[2]);
     return firstVector;
 }
+
+// minus operator
 Vertex operator-(Vertex a, Vertex b){
     Vertex firstVector = Vertex( a.coord[0] - b.coord[0], a.coord[1] - b.coord[1], a.coord[2] - b.coord[2]);
     return firstVector;
 }
+
+// negative operator
 Vertex operator-( Vertex a){ // unary -
     return -1*a;
 }
@@ -64,7 +70,7 @@ Vertex operator%( Vertex a, Vertex b){
     return c;
 }
 
-//
+// divide vertex by float
 Vertex operator/( Vertex a, float t){
     return (1/t)*a;
 }
@@ -85,6 +91,7 @@ void Vertex::operator+=( Vertex a){
     coord[2] += a.coord[2];
 }
 
+// compare operator rounding up (to prevent thrown false if values differ in the lower decimal places) and returning boolean
 bool Vertex::operator==( Vertex a){
     float roundCoord[3];
     float roundACoord[3];

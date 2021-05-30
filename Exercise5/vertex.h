@@ -8,12 +8,12 @@
 
 using namespace std;
 
-class Vertex{//alternativley, use getters and setters
+class Vertex{
 public:
     static const int size = 3;
 
     Vertex(); // empty constructor
-    Vertex(float points[3]);
+    Vertex(float points[3]); // Vertex object contains array of three float coordinates x y z
     Vertex(float a, float b, float c);
     float * getCoord();
     void Print();

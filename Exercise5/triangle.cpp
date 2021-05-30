@@ -13,16 +13,7 @@ Triangle::Triangle()
 {
 }
 
-// constructor for three point triangle
-//Triangle::Triangle(int x,int y, int z)
-//{
-//    a = x;
-//    b = y;
-//    c = z;
-//}
-
-
-
+// constructor for a triangle object containing a size 3 array of vertex indices referring to the vertex vector
 Triangle::Triangle(int a, int b, int c)
 {
     iv[0]= a;
@@ -50,6 +41,10 @@ int Triangle::getC(){
     return iv[2];
 }
 
+/* constructor for a triangle object containing the vertex index array,
+ * a 3 size array with the neighbor triangle indices and
+ * a 3 size array with the indices of the added edge vertices
+ */
 Triangle::Triangle(int vertex[3], int adjtriangle[3],int edges[3])
 {
     for (int i=0; i<3; i++){
@@ -58,12 +53,4 @@ Triangle::Triangle(int vertex[3], int adjtriangle[3],int edges[3])
         ie[i] = edges[i];
     }
 }
-
-
-
-//print method
-//void print( string text = "myVector ="){
-//    cout << text;
-//    cout << " [ " << xyz[0] << "; " << xyz[1] << "; " << xyz[2] << "]" << endl;
-//}
 

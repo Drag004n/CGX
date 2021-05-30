@@ -45,9 +45,10 @@ float betaN(int n){
     float alpha_n = 3.0f/8.0f + pow(3.0f/8.0f + 1.0f/4.0f * cos(2*PI/n), 2);
     float beta_n = 8.0f/5.0f * alpha_n - 3.0f/5.0f;
     return beta_n;
-        cout << beta_n << endl;
+        //cout << beta_n << endl;
 }
 
+// algorithm for creating the connectivity of a mesh by finding the valences and neighbor triangles
 void ConnectivityAlgorithm(Mesh& mesh){
 
 //    int n = 5;
@@ -234,6 +235,7 @@ void VertexMask(Mesh& mesh){
 
 }
 
+// method for creating and inserting the new triangles into the triangle vector by replacing the vector by a new one containing the triangles
 void NewTris(Mesh& mesh){
     // create new triangle vector to replace with existing one
     vector <Triangle> newTris;
